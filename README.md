@@ -21,3 +21,11 @@ No Netlify, use a raiz do repositório como diretório base e `h-main` como dire
 ## Verificação
 
 Execute `node h-main/tests/d10.cjs`, `node h-main/tests/customization.cjs`, `node h-main/tests/element-mixtures.cjs` e `node h-main/tests/site-routes.cjs`.
+
+## Dados pessoais online
+
+A página `h-main/conta-dados.html` permite salvar e restaurar misturas, tema, posição de leitura, favoritos e notas. Cada conjunto é privado e vinculado à conta Supabase. O combinador também oferece seus próprios botões de salvar/carregar da conta. As fichas continuam no cofre online existente.
+
+A tabela `hf_user_documents` usa RLS por `user_id`, limite por documento e controle de revisão para detectar conflitos entre dispositivos. A cópia local permanece disponível. O SQL da extensão está em `h-main/database/hurras-user-documents.sql`. Não há sincronização indiscriminada do armazenamento do navegador.
+
+Teste: `node h-main/tests/cloud-data.cjs`.
