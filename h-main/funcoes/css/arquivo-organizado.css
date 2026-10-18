@@ -1,0 +1,198 @@
+/* Hurras RPG: organização integral do arquivo original, com visual do bestiário. */
+.organ-layout{max-width:1260px;margin:auto;padding:22px 17px 72px}
+.organ-hero{padding:25px 7px 24px;border-bottom:1px solid #6b543c;margin-bottom:20px}
+.organ-hero h1{font-family:Georgia,serif;color:#f0d099;font-size:clamp(2rem,5vw,3.4rem);margin:8px 0}
+.organ-hero p{max-width:900px;color:#d5c6b3;line-height:1.7}
+.organ-nav{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0}
+.organ-nav a{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border-radius:8px;text-decoration:none;color:#f5dda8;border:1px solid #84633d;background:#26201d;font-weight:700}
+.organ-nav a:hover,.organ-nav a:focus-visible{background:#4a3521;border-color:#e0b977}
+.organ-nav a[aria-current="page"]{background:#5b4125;border-color:#edc182}
+.organ-source{margin:18px 0;padding:13px 16px;border-left:3px solid #bb955b;background:#2b241e;color:#ead9c0;border-radius:7px}
+.organ-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#19191b;border:1px solid #6a533b;border-radius:12px;padding:14px}
+.organ-toolbar label{font-size:.85rem;font-weight:700;color:#d6be98}
+.organ-toolbar input,.organ-toolbar select{flex:1 1 160px;min-width:130px;max-width:100%;padding:11px 12px;border:1px solid #73573c;border-radius:8px;background:#0d1014;color:#f5e8d5}
+.organ-toolbar button,.organ-more{padding:11px 14px;border:1px solid #bc9660;background:#392b21;border-radius:8px;color:#f7dda5;font:inherit;cursor:pointer}
+.organ-toolbar button:hover,.organ-more:hover{background:#60442a}
+.organ-count{color:#d5c2a4;margin:13px 2px}
+.organ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr));gap:16px;align-items:start}
+.organ-card{overflow:hidden;border:1px solid #74583b;background:linear-gradient(145deg,#231f20,#121618);border-radius:14px;color:#eae1d4;box-shadow:0 9px 26px #0006;min-width:0}
+.organ-card-top{display:grid;grid-template-columns:155px minmax(0,1fr);gap:15px;padding:14px}
+.organ-cover{margin:0;width:155px;min-height:205px;border:1px solid #65513f;background:#201e1e;border-radius:9px;overflow:hidden;display:flex;align-items:stretch}
+.organ-cover>a{width:100%;display:block}
+.organ-cover img{width:100%;height:100%;min-height:205px;object-fit:cover;display:block}
+.organ-cover-placeholder{width:100%;min-height:205px;display:flex;flex-direction:column;gap:15px;justify-content:center;align-items:center;padding:12px;background:radial-gradient(circle at 50% 36%,#5d5040 0,#272b31 59%,#17191d 100%);color:#f5d9a7;text-align:center}
+.organ-cover-symbol{font-size:3.8rem;line-height:1}
+.organ-cover-caption{font-size:.75rem;color:#c8baa0;line-height:1.45}
+.organ-card-details{min-width:0;overflow-wrap:anywhere}
+.organ-tag{display:block;font-size:.78rem;color:#d2ad74;font-weight:700;margin-bottom:6px}
+.organ-card h3{margin:3px 0 8px;font-size:1.35rem;color:#ffdf9f;font-family:Georgia,serif;line-height:1.28}
+.organ-card h4{font-family:Georgia,serif;color:#eac78c;font-size:.93rem;margin:12px 0 5px}
+.organ-stats{font-size:.9rem;color:#e8cda0;margin:8px 0;border-top:1px solid #554334;padding-top:8px}
+.organ-description{white-space:pre-wrap;line-height:1.62;color:#e7ded1;font-size:.94rem;margin:5px 0}
+.organ-habitat{white-space:pre-wrap;line-height:1.52;color:#c4cfb8;font-size:.86rem;margin:11px 0}
+.organ-full{border-top:1px solid #67513a;margin:0 14px 14px;padding-top:7px}
+.organ-full>summary,.organ-verbatim>summary{cursor:pointer;color:#f7d597;font-weight:750;line-height:1.5;padding:8px 5px}
+.organ-full-sections{margin:8px 0}
+.organ-full-section{border-left:3px solid #82603d;padding:3px 0 6px 12px;margin:11px 0;background:#1c1e21;border-radius:5px}
+.organ-original{font:inherit;font-size:.88rem;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;color:#e6e1d7;margin:6px 0 8px}
+.organ-verbatim{margin:15px 0;padding:9px 11px;border:1px solid #71593c;border-radius:8px}
+.organ-empty{background:#211b1d;padding:18px;border:1px solid #74563f;border-radius:10px}
+.organ-more{display:block;margin:16px auto}
+.organ-source-list{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0 25px}
+.organ-source-list a{color:#e2b879;font-size:.86rem}
+[hidden]{display:none!important}
+@media(max-width:620px){.organ-layout{padding:15px 9px 50px}.organ-card-top{grid-template-columns:110px minmax(0,1fr);gap:10px;padding:10px}.organ-cover{width:110px;min-height:170px}.organ-cover img,.organ-cover-placeholder{min-height:170px}.organ-cover-symbol{font-size:2.6rem}.organ-cover-caption{font-size:.66rem}.organ-card h3{font-size:1.15rem}.organ-description{font-size:.9rem}.organ-habitat{font-size:.8rem}.organ-toolbar{gap:7px}.organ-toolbar input{flex-basis:100%}}
+@media(max-width:380px){.organ-card-top{grid-template-columns:1fr}.organ-cover{width:100%;max-height:240px}.organ-cover img,.organ-cover-placeholder{max-height:240px}.organ-card h3{font-size:1.28rem}}
+@media print{.organ-toolbar,.organ-nav,.organ-more,.noprint{display:none!important}.organ-layout{padding:0}.organ-grid{display:block}.organ-card{break-inside:avoid;box-shadow:none;border:1px solid #777;margin:11px 0;background:#fff;color:#111}.organ-card *{color:#111!important}.organ-cover{max-width:115px;min-height:130px}.organ-cover img,.organ-cover-placeholder{min-height:130px}.organ-original{font-size:10pt}}
+
+
+/* Ragnarök: eventos em etapas e fichas dos 13 seres adicionais. */
+.rag-guide{margin:30px 0 42px;padding:22px;border:1px solid #80613e;border-radius:15px;background:linear-gradient(155deg,#211c21,#111718);box-shadow:0 9px 28px #0005}
+.rag-guide-header h2,.rag-section-heading h2{color:#f5ce8b;font-size:clamp(1.45rem,2.7vw,2rem);margin:8px 0}
+.rag-guide-header p,.rag-section-heading p{color:#d3c2ae;line-height:1.62;margin:7px 0 15px}
+.rag-progress{color:#d2b987;line-height:1.5;font-size:.86rem}
+.rag-events{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:19px}
+.rag-event{background:#191c20;border:1px solid #786143;border-radius:12px;padding:17px;overflow-wrap:anywhere}
+.rag-event--hel{border-top:4px solid #975358}
+.rag-event--heimdall{border-top:4px solid #c39a50}
+.rag-event--vigridr{border-top:4px solid #946045}
+.rag-event-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.rag-event-step{display:inline-block;padding:5px 8px;border-radius:6px;background:#3a2a25;color:#ffdda7;font-size:.78rem;font-weight:bold}
+.rag-page{color:#aea18d;font-size:.78rem}
+.rag-event h3{color:#f7d9a8;font-size:1.35rem;margin:15px 0 9px}
+.rag-event h4,.rag-reference-card h4,.rag-hierarchy-card h4{color:#ebc791;margin:17px 0 9px}
+.rag-event-description{color:#e4d7c6;line-height:1.65;font-size:.94rem}
+.rag-attacks,.rag-consequences{margin:7px 0;padding:0;list-style:none;display:grid;gap:7px}
+.rag-attacks li{padding:9px 11px;background:#302324;border:1px solid #6d4541;border-radius:7px;color:#f0d8c8;line-height:1.5;font-size:.89rem}
+.rag-consequences li{border-left:3px solid #957a58;padding:7px 10px;background:#232324;color:#e4d8c8;border-radius:4px;line-height:1.5;font-size:.88rem}
+.rag-source{padding:10px;margin-top:14px;border:1px solid #5e513f;border-radius:8px}
+.rag-source>summary{cursor:pointer;color:#e6bf86;font-weight:bold;font-size:.86rem}
+.rag-source pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:.85rem;line-height:1.65;color:#e3ddd0}
+.rag-section-heading{margin:32px 0 13px}
+.rag-hierarchy{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.rag-hierarchy-card,.rag-reference-card{border:1px solid #685239;background:#1b2022;padding:16px;border-radius:11px;min-width:0}
+.rag-compact-list{margin:8px 0;padding-left:20px;color:#f0dfc6;line-height:1.8}
+.rag-last-boss{grid-column:1/-1;padding:13px 16px;background:#493021;border:1px solid #9f784b;border-radius:10px;color:#f9dfb7}
+.rag-last-boss p{margin:6px 0;color:#f7e8d2}
+.rag-hierarchy>.rag-source{grid-column:1/-1}
+.rag-reference{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.rag-reference>.rag-source{grid-column:1/-1}
+.rag-chip-list{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:9px 0;padding:0}
+.rag-chip-list li{background:#322d29;border:1px solid #706047;border-radius:20px;padding:6px 9px;color:#ead7ba;font-size:.84rem}
+.rag-link-beasts{margin:21px 0 5px;padding:15px;border-left:3px solid #d6aa6d;background:#2a2521;border-radius:7px}
+.rag-link-beasts p{color:#e9d5b9;line-height:1.6;margin:0 0 9px}
+.rag-link-beasts a{color:#fbd89a}
+.organ-power-list{list-style:none;margin:8px 0 13px;padding:0;display:grid;gap:6px}
+.organ-power-list li{padding:8px 10px;border-radius:6px;border-left:3px solid #bc955a;background:#302924;color:#f4dfbd;line-height:1.5;font-size:.85rem}
+.organ-special-list li{border-left-color:#77a5ac;background:#263035;color:#d7ebea}
+@media(max-width:1050px){.rag-events{grid-template-columns:1fr 1fr}.rag-event--vigridr{grid-column:span 2}}
+@media(max-width:670px){.rag-guide{padding:13px}.rag-events,.rag-reference,.rag-hierarchy{grid-template-columns:1fr}.rag-event--vigridr{grid-column:auto}.rag-last-boss,.rag-hierarchy>.rag-source,.rag-reference>.rag-source{grid-column:auto}.rag-event{padding:13px}.rag-chip-list li{font-size:.8rem}}
+@media print{.rag-guide{background:white;box-shadow:none;color:#111}.rag-events,.rag-reference,.rag-hierarchy{display:block}.rag-event,.rag-reference-card,.rag-hierarchy-card{background:#fff!important;color:#111!important;break-inside:avoid;margin:10px 0}.rag-guide :is(h2,h3,h4,p,span,li,strong,pre){color:#111!important}.rag-source{display:block}}
+
+
+/* Destaques do Mestre — cartões legíveis e fontes originais intactas */
+.organ-highlights{margin:23px 0 30px;padding:20px;border:1px solid #957447;border-radius:15px;background:linear-gradient(155deg,#33291e,#1d2220 72%);scroll-margin-top:65px}
+.organ-highlights-heading h2{font:700 clamp(1.45rem,2.6vw,2rem)/1.3 Georgia,serif;color:#ffdfa0;margin:7px 0}
+.organ-highlights-heading p{max-width:900px;color:#e1d3bb;line-height:1.65;margin:6px 0 15px}
+.organ-highlights-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px}
+.organ-highlights-tabs button{cursor:pointer;padding:10px 13px;border-radius:24px;border:1px solid #967a54;background:#272b29;color:#ebdfd0;font-weight:780;font-size:.84rem}
+.organ-highlights-tabs button[aria-pressed="true"]{background:#755328;border-color:#e0b875;color:#fff2d9}
+.organ-highlights-tabs button:hover,.organ-highlights-tabs button:focus-visible{border-color:#f1d19c}
+.organ-highlights-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.organ-highlight-card{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px;background:#202a2a;border-radius:11px;border:1px solid #687966;box-shadow:0 2px 7px #0003}
+.organ-highlight-head{display:grid;gap:4px}
+.organ-highlight-kind{font-weight:750;color:#c6e0c0;font-size:.74rem}
+.organ-highlight-head h3{margin:3px 0 0;font:750 1.13rem/1.35 Georgia,serif;color:#ffdeaa;overflow-wrap:anywhere}
+.organ-highlight-note{font-size:.79rem;color:#c3cbbc}
+.organ-highlight-status{display:flex;flex-wrap:wrap;gap:6px}
+.organ-highlight-status span{font-size:.78rem;font-weight:800;color:#f4e0ae;padding:5px 8px;border:1px solid #a28b60;background:#39372d;border-radius:6px}
+.organ-highlight-info{padding:9px 11px;border:1px solid #45655e;background:#162c29;border-radius:9px;overflow-wrap:anywhere}
+.organ-highlight-info strong{display:block;color:#cfe5d4;font-size:.8rem;margin-bottom:4px}
+.organ-highlight-info p{margin:0;color:#f2ede1;font-size:.83rem;line-height:1.5}
+.organ-highlight-drop{border-color:#776948;background:#2e2b21}
+.organ-highlight-drop strong{color:#f0d79a}
+.organ-highlight-original{margin-top:auto;border-top:1px solid #55625a;padding-top:9px}
+.organ-highlight-original summary{color:#ffe1a1;font-weight:750;font-size:.85rem;cursor:pointer}
+.organ-highlight-content{max-height:480px;overflow:auto;padding:8px 0}
+.organ-highlight-content pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:none;color:#e4e7df;font:12.5px/1.6 ui-monospace,Consolas,monospace;margin:0 0 10px}
+.organ-highlight-content button{padding:8px 10px;border:1px solid #af8d57;border-radius:6px;background:#4b402f;color:#f9eac5;font-weight:750;cursor:pointer}
+.organ-highlights-hint{font-size:.81rem;color:#bfbfb1;margin:13px 0 0}
+@media(max-width:950px){.organ-highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){.organ-highlights{padding:13px}.organ-highlights-grid{grid-template-columns:1fr}.organ-highlights-tabs button{font-size:.78rem;padding:8px 10px}}
+@media print{.organ-highlights-tabs,.organ-highlight-original summary,.organ-highlight-content button{display:none!important}.organ-highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.organ-highlight-card{background:white!important;color:black!important;break-inside:avoid}}
+
+
+/* Físico, Social e Mental lado a lado nas criaturas e nos destaques. */
+.organ-main-attributes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:11px 0 14px;min-width:0}
+.organ-main-group{min-width:0;padding:10px;border:1px solid #837457;border-radius:9px;background:#252e2e}
+.organ-main-group h4{font-size:.88rem;color:#ffe1a5!important;margin:0 0 10px!important;padding:0 0 7px;border-bottom:1px solid #657268}
+.organ-main-fisico{background:#342e26;border-color:#a38760}
+.organ-main-social{background:#293442;border-color:#728ba7}
+.organ-main-mental{background:#302e40;border-color:#9585a9}
+.organ-main-field{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px;padding:7px 6px;border-radius:6px;background:#161f22a8;margin-top:5px}
+.organ-main-field span{font-size:.78rem;color:#f1ecdf;overflow-wrap:anywhere}
+.organ-main-field strong{font-size:.96rem;color:#ffdc9b;font-variant-numeric:tabular-nums}
+.organ-highlight-card .organ-main-attributes{margin:0;gap:5px}
+.organ-highlight-card .organ-main-group{padding:8px 6px}
+.organ-highlight-card .organ-main-group h4{font-size:.75rem;min-height:25px}
+.organ-highlight-card .organ-main-field{gap:3px;padding:5px 3px}
+.organ-highlight-card .organ-main-field span{font-size:.7rem}
+.organ-highlight-card .organ-main-field strong{font-size:.82rem}
+@media(max-width:740px){.organ-main-attributes{grid-template-columns:repeat(3,minmax(170px,1fr));overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:3px}.organ-main-group{scroll-snap-align:start}}
+@media print{.organ-main-group,.organ-main-field{background:white!important;color:black!important;border-color:#aaa!important;break-inside:avoid}.organ-main-group h4,.organ-main-field strong{color:black!important}}
+
+
+/* Nove habilidades em cada uma das três colunas do bestiário */
+.organ-skills-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:11px 0 13px;min-width:0}
+.organ-skills-column{min-width:0;border:1px solid #667b71;border-radius:9px;padding:10px;background:#27312f}
+.organ-skills-esquerda{border-color:#b08d65;background:#352e28}
+.organ-skills-meio{border-color:#7593a9;background:#283641}
+.organ-skills-direita{border-color:#a18bad;background:#332d42}
+.organ-skills-column h4{margin:0 0 9px!important;padding:0 0 7px;border-bottom:1px solid #6c756b;color:#ffe1a3!important;font-size:.84rem}
+.organ-skills-row{display:flex;justify-content:space-between;gap:5px;align-items:center;background:#152123b8;border-radius:6px;padding:6px;margin-top:5px;min-width:0}
+.organ-skills-row span{font-size:.75rem;line-height:1.3;color:#f0ebe1;overflow-wrap:anywhere}
+.organ-skills-row strong{font-size:.92rem;color:#ffe0a1;font-variant-numeric:tabular-nums}
+.organ-highlight-skills-title{margin:0;color:#f4dda8;font-size:.92rem}
+.organ-highlight-card .organ-skills-columns{gap:5px;margin:0}
+.organ-highlight-card .organ-skills-column{padding:6px 5px}
+.organ-highlight-card .organ-skills-column h4{font-size:.7rem;line-height:1.25;min-height:27px}
+.organ-highlight-card .organ-skills-row{padding:4px 2px}
+.organ-highlight-card .organ-skills-row span{font-size:.65rem}
+.organ-highlight-card .organ-skills-row strong{font-size:.74rem}
+@media(max-width:800px){.organ-skills-columns{grid-template-columns:repeat(3,minmax(185px,1fr));overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:5px}.organ-skills-column{scroll-snap-align:start}}
+@media print{.organ-skills-column,.organ-skills-row{background:white!important;border-color:#888!important;break-inside:avoid}.organ-skills-column h4,.organ-skills-row strong{color:black!important}}
+
+
+/* Ordem padronizada de ficha de inimigo — leitura horizontal e combate primeiro. */
+body[data-archive-mode="bestiario"] .organ-grid{grid-template-columns:minmax(0,1fr);gap:20px}
+.organ-enemy-card{background:linear-gradient(145deg,#1b2527,#161b20);border:1px solid #9c835f}
+.organ-enemy-header{display:grid;grid-template-columns:155px minmax(0,1fr);gap:18px;padding:18px;background:linear-gradient(110deg,#332a23,#203039);border-bottom:1px solid #856e53}
+.organ-enemy-figure .organ-cover{width:155px;min-height:165px}
+.organ-enemy-info{min-width:0}
+.organ-enemy-info h3{font-size:clamp(1.4rem,3.6vw,2rem);overflow-wrap:anywhere}
+.organ-enemy-identity,.organ-enemy-resources{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.organ-enemy-identity span{font-size:.8rem;background:#1a2a2b;color:#dddccb;border:1px solid #64746c;padding:7px;border-radius:6px}
+.organ-enemy-resources span{font-weight:800;font-size:.91rem;background:#372f26;border:1px solid #aa895d;color:#f6dfae;padding:10px 12px;border-radius:8px}
+.organ-enemy-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:17px}
+.organ-enemy-section{min-width:0;border:1px solid #6d7c6d;padding:14px;border-radius:11px;background:#202e2d}
+.organ-enemy-section>h4{font:750 1.1rem/1.35 Georgia,serif!important;color:#ffe0a6!important;border-bottom:1px solid #657a6a;padding-bottom:9px;margin:0 0 13px!important}
+.organ-enemy-section:nth-child(-n+2),.organ-enemy-history{grid-column:1/-1}
+.organ-enemy-body .organ-main-attributes,.organ-enemy-body .organ-skills-columns{margin:0}
+.organ-enemy-list{display:grid;gap:9px}
+.organ-enemy-entry{background:#172729;border:1px solid #4b6660;padding:11px;border-radius:8px}
+.organ-enemy-entry-title{font-size:.86rem;color:#f0d79e;display:block;margin-bottom:7px}
+.organ-enemy-lines{display:grid;gap:6px}
+.organ-enemy-lines p{margin:0;padding:7px 9px;border-radius:6px;line-height:1.5;background:#283a38;color:#f0ebdc;font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.organ-enemy-unreported{font-size:.82rem;color:#bfcabc;line-height:1.5;margin:0}
+.organ-enemy-combat{border-color:#b39861;background:#332a22}
+.organ-enemy-powers{border-color:#8585b6;background:#282a3d}
+.organ-enemy-passives{border-color:#9b7ca5;background:#322b3e}
+.organ-enemy-defenses{border-color:#6d9a96;background:#203337}
+.organ-enemy-drops{border-color:#af965d;background:#2e2921}
+.organ-enemy-history{background:#222b2a}
+.organ-enemy-full{margin:0 18px 16px}
+body[data-archive-mode="bestiario"] .organ-enemy-body .organ-main-attributes,
+body[data-archive-mode="bestiario"] .organ-enemy-body .organ-skills-columns{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:820px){.organ-enemy-body{grid-template-columns:1fr}.organ-enemy-body>.organ-enemy-section{grid-column:1/-1}}
+@media(max-width:630px){.organ-enemy-header{grid-template-columns:100px minmax(0,1fr);gap:10px;padding:10px}.organ-enemy-figure .organ-cover{width:100px;min-height:145px}.organ-enemy-body{padding:10px;gap:10px}.organ-enemy-section{padding:10px}.organ-enemy-resources span{padding:7px 9px;font-size:.8rem}body[data-archive-mode="bestiario"] .organ-enemy-body .organ-main-attributes,body[data-archive-mode="bestiario"] .organ-enemy-body .organ-skills-columns{grid-template-columns:repeat(3,minmax(185px,1fr));overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:5px}}
+@media print{.organ-enemy-card{background:white!important;color:black!important;break-inside:auto!important}.organ-enemy-body{display:block}.organ-enemy-section{background:white!important;border-color:#777!important;break-inside:avoid;margin:10px 0}.organ-enemy-header{background:white!important}.organ-enemy-lines p,.organ-enemy-entry{background:white!important;color:black!important}}

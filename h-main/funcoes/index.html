@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hurras RPG — Nove Reinos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="sigil">⚔️</div>
+    <div><div class="eyebrow">HURRAS RPG</div><h1>NOVE REINOS</h1></div>
+  </div>
+  <button id="randomBtn" class="random">🎲 Ficha Aleatória</button>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">BESTIÁRIO NÓRDICO</p>
+    <h2>Deuses, herdeiros e criaturas do Ragnarök</h2>
+    <p>Explore as fichas do arquivo em um formato feito para consulta rápida durante a sessão.</p>
+  </div>
+  <div class="hero-stats">
+    <div><b id="count">56</b><span>Fichas</span></div>
+    <div><b>∞</b><span>Dados preservados</span></div>
+  </div>
+</section>
+
+<main>
+  <section class="controls">
+    <div class="search"><span>🔎</span><input id="search" placeholder="Buscar personagem, ataque, magia, técnica, passiva..."></div>
+    <div class="filters" id="filters">
+      <button class="filter active" data-filter="all">Todos</button>
+      <button class="filter" data-filter="deuses">Deuses</button>
+      <button class="filter" data-filter="descendentes">Descendentes</button>
+      <button class="filter" data-filter="criaturas">Criaturas</button>
+      <button class="filter" data-filter="ragnarok">Ragnarök</button>
+    </div>
+  </section>
+  <section id="grid" class="grid"></section>
+</main>
+
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <article class="sheet">
+    <button class="close" data-close>×</button>
+    <div id="sheet"></div>
+  </article>
+</div>
+
+<footer>HURRAS RPG • Nove Reinos • Site estático • Conteúdo baseado no arquivo enviado</footer>
+<script src="dados.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
+
