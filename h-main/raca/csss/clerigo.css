@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.267)), url('../img/Dungeons-Dragons-–-Tudo-sobre-a-nova-classe-clerigo-2024.webp');
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.267)), radial-gradient(ellipse at top, #483d29, #11131b);
     background-size: cover;
     background-attachment: fixed;
     background-position: center;

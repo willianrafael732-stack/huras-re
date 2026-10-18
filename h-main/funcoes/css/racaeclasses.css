@@ -16,7 +16,7 @@ body{
             rgba(0,0,0,0.85),
             rgba(20,0,0,0.92)
         ),
-        url("/funcoes/img/fundo-rpg.jpg");
+        radial-gradient(ellipse at top, #342536, #101119);
 
     background-size: cover;
     background-position: center;

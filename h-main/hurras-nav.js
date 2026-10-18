@@ -22,10 +22,10 @@ const groups=[
 ,
 ['Ficha de animal','animais/ficha-animal.html','Companheiros e mascotes'],
 ['Raças e classes','funcoes/racaeclasses.html','Escolher raça e estilo'],
-['Origens','funcoes/origem.html','Origens do personagem'],
-['Novas origens','funcoes/novas-origens.html','Origens extras'],
+
+
 ['Profissões','profissao/profissoes.html','Ocupações e talentos'],
-['Clãs','funcoes/clan.html','Forja e características']]},
+]},
 {label:'Regras & magias',icon:'✧',items:[
 ['Sistema completo','funcoes/sistema-completo.html','Regras detalhadas da campanha'],
 ['Habilidades','funcoes/habilidades.html','Habilidades dos personagens'],
