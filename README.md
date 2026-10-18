@@ -29,3 +29,11 @@ A página `h-main/conta-dados.html` permite salvar e restaurar misturas, tema, p
 A tabela `hf_user_documents` usa RLS por `user_id`, limite por documento e controle de revisão para detectar conflitos entre dispositivos. A cópia local permanece disponível. O SQL da extensão está em `h-main/database/hurras-user-documents.sql`. Não há sincronização indiscriminada do armazenamento do navegador.
 
 Teste: `node h-main/tests/cloud-data.cjs`.
+
+## Login único por pessoa
+
+`h-main/entrar.html` centraliza cadastro, login por e-mail/senha, Google e recuperação. Todas as páginas usam a mesma sessão Supabase. Os rascunhos locais e o IndexedDB são separados pelo identificador da conta, e a troca de usuário recarrega a página sem reutilizar o espaço de outra conta. Dados antigos sem dono permanecem no modo visitante; podem ser exportados e importados pelo cofre.
+
+As preferências online são recuperadas no primeiro acesso de cada conta no navegador. O salvamento da ficha conectada tenta manter uma cópia na conta; falhas de conexão preservam a versão local. Misturas e demais dados oferecem botões de sincronização em Meus dados.
+
+Verificação: `node h-main/tests/user-storage.cjs`.

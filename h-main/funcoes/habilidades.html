@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+<head><script src="../portal/user-storage.js"></script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hurras Fantasy - Habilidades</title>
 <link rel="stylesheet" href="../site.css">
@@ -29,4 +29,4 @@ function raceCard(name,r){const a=r.habilidadeRacial||{},t=r.tracoRacial||{};ret
 function classCard(name,c){const abilities=c.habilidadesClasse||[];return `<article class="card" data-kind="class"><span class="kind">Classe</span><h3>${name}</h3>${abilities.map((x,i)=>`<div class="ability ${i===abilities.length-1?'ultimate':''}"><strong>${x.name} · ${x.type}</strong><p>${x.effect}</p></div>`).join('')}<div class="footer"><a href="clan.html?class=${encodeURIComponent(name)}">Usar na ficha</a></div></article>`}
 function render(){const q=search.value.trim().toLowerCase();let items=[];if(tab!=='class')items.push(...Object.entries(D.races).map(([n,r])=>({kind:'race',search:(n+' '+r.passiva+' '+JSON.stringify(r.habilidadeRacial)+' '+JSON.stringify(r.tracoRacial)).toLowerCase(),html:raceCard(n,r)})));if(tab!=='race')items.push(...Object.entries(D.classes).map(([n,c])=>({kind:'class',search:(n+' '+JSON.stringify(c.habilidadesClasse)).toLowerCase(),html:classCard(n,c)})));if(q)items=items.filter(x=>x.search.includes(q));grid.innerHTML=items.length?items.map(x=>x.html).join(''):'<div class="empty">Nenhuma habilidade encontrada.</div>';document.getElementById('count').textContent=`${items.length} entradas`;document.getElementById('title').textContent=tab==='race'?'Habilidades raciais':tab==='class'?'Técnicas de classe':'Todas as habilidades'}
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.remove('active'));b.classList.add('active');tab=b.dataset.tab;render()});search.oninput=render;render();
-</script></body></html>
+</script><script defer src="../portal/account-session.js"></script></body></html>

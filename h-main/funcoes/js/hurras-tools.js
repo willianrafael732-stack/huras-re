@@ -17,7 +17,7 @@ const api=()=>window.HurrasDarkSheetAPI;
 const get=()=>dark?api()?.get():window.HurrasStorage?.capture();
 const restore=v=>{if(dark)api()?.update(v);else window.HurrasStorage?.restore(v)};
 const level=()=>Math.max(1,Math.min(10,Number(dark?get()?.fields?.['Nível']:get()?.inputs?.level)||1));
-const ident=()=>dark?(get()?.id||'novo'):(localStorage.getItem('hurrasCurrentFichaId')||'rascunho');
+const ident=()=>dark?(get()?.id||'novo'):(HurrasStorage.getItem('hurrasCurrentFichaId')||'rascunho');
 const key=()=> (dark?'dark:':'classic:')+ident();
 const setNotice=s=>{notice.textContent=s};
 let tab='combat',history=[],recording=false;
@@ -70,12 +70,12 @@ function adjust(type,n){
  show();
 }
 function conditionKey(){return 'hurras:conditions:'+key()}
-function conditions(){try{const a=JSON.parse(localStorage.getItem(conditionKey())||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
+function conditions(){try{const a=JSON.parse(HurrasStorage.getItem(conditionKey())||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
 function saveConditions(items){
  // Uma nova ficha ainda sem ID recebe o seu próprio registro ao usar condições.
  if(dark&&!get()?.id)api()?.save();
- else if(!dark&&!localStorage.getItem('hurrasCurrentFichaId'))window.HurrasStorage?.saveDraft?.();
- try{localStorage.setItem(conditionKey(),JSON.stringify(items))}
+ else if(!dark&&!HurrasStorage.getItem('hurrasCurrentFichaId'))window.HurrasStorage?.saveDraft?.();
+ try{HurrasStorage.setItem(conditionKey(),JSON.stringify(items))}
  catch(e){setNotice('Não foi possível salvar a condição.')}
  show()
 }
@@ -167,7 +167,7 @@ function equip(){
   list.append(card);
  }
 }
-function allowance(){try{return Math.max(0,Math.min(50,Number(localStorage.getItem('hurras:allowance')??5)||0))}catch(e){return 5}}
+function allowance(){try{return Math.max(0,Math.min(50,Number(HurrasStorage.getItem('hurras:allowance')??5)||0))}catch(e){return 5}}
 function pointsUsed(){
  const d=get()||{};
  if(dark)return Object.entries(d.stats||{}).filter(([name])=>name!=='Força de Vontade').reduce((n,[name,value])=>n+Math.max(0,Number(value)||0),0);
@@ -185,7 +185,7 @@ function points(){
  }
  const label=el('label','Pontos por nível (valor editável pelo Mestre, não é regra obrigatória)');
  const inp=el('input');inp.type='number';inp.min='0';inp.max='50';inp.value=allowance();
- inp.onchange=()=>{try{localStorage.setItem('hurras:allowance',String(Math.max(0,Math.min(50,Number(inp.value)||0))))}catch(e){}show()};
+ inp.onchange=()=>{try{HurrasStorage.setItem('hurras:allowance',String(Math.max(0,Math.min(50,Number(inp.value)||0))))}catch(e){}show()};
  label.append(inp);content.append(label);
  content.append(el('p','A referência começa em 5 por nível. Não limita os atributos. Na ficha clássica, pontos raciais iniciais não contam como distribuídos.'))
 }

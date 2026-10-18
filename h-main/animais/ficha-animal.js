@@ -43,12 +43,12 @@ function preview(){
  +textblock('DESCRIÇÃO',value('descricao'))+'</div><p class="animal-pdf-foot">Hurras Fantasy • Ficha de Animal • Vida = Nível × 10 • Mana = Nível × 5</p>';
 }
 function persist(show=false){
- try{localStorage.setItem(KEY,JSON.stringify(capture()));if(show)status('Ficha salva neste navegador. Guarde uma cópia em PDF para outros dispositivos.');else status('Salvamento automático concluído.');return true}
+ try{HurrasStorage.setItem(KEY,JSON.stringify(capture()));if(window.HurrasAccount&&HurrasStorage.owner!=='guest'){const data=capture();HurrasAccount.saveSheet('animal','animal-current',data.nome||'Animal',data).then(()=>{if(show)status('Ficha de animal salva no navegador e na conta.')}).catch(()=>{if(show)status('Ficha salva no navegador; não foi possível salvar online.')})}if(show)status('Ficha salva neste navegador.');else status('Salvamento automático concluído.');return true}
  catch(e){status('Não foi possível salvar. Verifique espaço ou permissões do navegador.');return false}
 }
 function schedule(){clearTimeout(timer);timer=setTimeout(()=>persist(false),450)}
 function load(){
- let data={};try{data=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){status('O rascunho anterior não pôde ser carregado.')}
+ let data={};try{data=JSON.parse(HurrasStorage.getItem(KEY)||'{}')||{}}catch(e){status('O rascunho anterior não pôde ser carregado.')}
  if(typeof data!=='object'||Array.isArray(data))data={};
  for(const [k,v] of Object.entries(data)){const field=form.elements.namedItem(k);if(field&&typeof v!=='object')field.value=String(v)}
  $('nivel').value=level();lastLevel=level();
@@ -65,7 +65,7 @@ form.addEventListener('submit',e=>e.preventDefault());
 form.addEventListener('input',e=>{if(e.target.id==='nivel')setLevel();else{renderResources();preview()}schedule()});
 form.addEventListener('change',e=>{if(e.target.id==='nivel')setLevel();else{renderResources();preview()}schedule()});
 $('salvar').addEventListener('click',()=>{clearTimeout(timer);renderResources();persist(true)});
-$('limpar').addEventListener('click',()=>{if(!confirm('Limpar a ficha de animal salva neste navegador?'))return;clearTimeout(timer);try{localStorage.removeItem(KEY)}catch(e){status('Não foi possível apagar o rascunho.');return}form.reset();lastLevel=level();$('pv').value=maxPV();$('mana').value=maxMana();renderResources();preview();status('Rascunho limpo. Preencha a ficha para criar outra.')});
+$('limpar').addEventListener('click',()=>{if(!confirm('Limpar a ficha de animal salva neste navegador?'))return;clearTimeout(timer);try{HurrasStorage.removeItem(KEY)}catch(e){status('Não foi possível apagar o rascunho.');return}form.reset();lastLevel=level();$('pv').value=maxPV();$('mana').value=maxMana();renderResources();preview();status('Rascunho limpo. Preencha a ficha para criar outra.')});
 $('randomAnimal').addEventListener('click',()=>{
  const species=[['Lobo','Selvagem','Mordida: 1d6','Farejo apurado e caça em bando.'],['Pantera','Companheiro','Garras: 1d6','Furtividade e salto.'],['Urso','Selvagem','Patada: 2d6','Força e resistência.'],['Corvo','Ave','Bicada: 1d4','Visão aguçada.'],['Javali','Selvagem','Investida: 1d6','Ímpeto e resistência.'],['Grifo','Montaria','Garras: 2d6','Voo e visão de longa distância.']];
  const choice=species[Math.floor(Math.random()*species.length)],names=['Sombra','Brasa','Luar','Folha','Trovão','Mistral'];

@@ -1,17 +1,17 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id),rows=[];
-function parse(key,def=[]){try{const v=JSON.parse(localStorage.getItem(key)||'null');return Array.isArray(v)?v:def}catch{return def}}
+function parse(key,def=[]){try{const v=JSON.parse(HurrasStorage.getItem(key)||'null');return Array.isArray(v)?v:def}catch{return def}}
 function gatherDark(){return parse('hurrasDarkFantasySheetsV1').map(x=>({id:x.id,kind:'dark',name:x.fields?.Nome||'Sem nome',race:x.fields?.Raça||'',cls:x.fields?.Classe||'',player:x.fields?.Player||'',level:Number(x.fields?.Nível)||1,raw:x,updated:x.updatedAt}))}
 async function gatherClassic(){
  let list=parse('hurrasVaultFallbackV2');
- try{const db=await new Promise((ok,bad)=>{const req=indexedDB.open('hurras_fantasy',2);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('characters')){const store=db.createObjectStore('characters',{keyPath:'id'});store.createIndex('updatedAt','updatedAt')}};req.onsuccess=()=>ok(req.result);req.onerror=()=>bad(req.error)});
+ try{const db=await new Promise((ok,bad)=>{const req=indexedDB.open(HurrasStorage.database('hurras_fantasy'),2);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('characters')){const store=db.createObjectStore('characters',{keyPath:'id'});store.createIndex('updatedAt','updatedAt')}};req.onsuccess=()=>ok(req.result);req.onerror=()=>bad(req.error)});
  const data=await new Promise((ok,bad)=>{const tx=db.transaction('characters','readonly');const req=tx.objectStore('characters').getAll();req.onsuccess=()=>ok(req.result||[]);req.onerror=()=>bad(req.error)});db.close();
  const found=new Set(data.map(x=>x.id));list=[...data,...list.filter(x=>!found.has(x.id))];
  }catch(e){}
  return list.map(x=>({id:x.id,kind:'classic',name:x.name||x.data?.inputs?.name||'Sem nome',race:x.race||x.data?.inputs?.race||'',cls:x.className||x.data?.inputs?.class||'',player:x.player||x.data?.inputs?.player||'',level:Number(x.data?.inputs?.level)||1,raw:x,updated:x.updatedAt}));
 }
 const el=(t,text)=>{const n=document.createElement(t);if(text!==undefined)n.textContent=text;return n};
-const conditions=x=>{try{const data=JSON.parse(localStorage.getItem('hurras:conditions:'+x.kind+':'+x.id)||'[]');return Array.isArray(data)?data:[]}catch{return []}};
+const conditions=x=>{try{const data=JSON.parse(HurrasStorage.getItem('hurras:conditions:'+x.kind+':'+x.id)||'[]');return Array.isArray(data)?data:[]}catch{return []}};
 function details(item){
  const classic=item.kind==='classic',d=item.raw,s=classic?d.data?.state||{}:d,level=item.level;
  const health=classic?level*10-(Number(s.wounds)||0):(s.vitality||[]).length;

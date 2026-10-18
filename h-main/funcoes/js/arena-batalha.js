@@ -4,7 +4,7 @@ const content=document.getElementById('arena'),select=document.getElementById('a
 if(!content||!select)return;
 const DARK_KEY='hurrasDarkFantasySheetsV1';
 const active=()=>select.value;
-function all(){try{const items=JSON.parse(localStorage.getItem(DARK_KEY)||'[]');return Array.isArray(items)?items:[]}catch(_){return []}}
+function all(){try{const items=JSON.parse(HurrasStorage.getItem(DARK_KEY)||'[]');return Array.isArray(items)?items:[]}catch(_){return []}}
 function get(){
  const item=all().find(x=>x.id===active());
  return item||{id:'',fields:{Nome:'Treino',Nível:'1'},stats:{},vitality:Array.from({length:10},(_,i)=>i),mana:[]}
@@ -14,7 +14,7 @@ function restore(state){
  const items=all(),idx=items.findIndex(x=>x.id===active());
  if(idx<0){notice.textContent='Ficha não encontrada. Atualize a lista de personagens.';return}
  items[idx]={...items[idx],...state,id:active(),updatedAt:new Date().toISOString()};
- try{localStorage.setItem(DARK_KEY,JSON.stringify(items));notice.textContent='Vida atualizada na ficha Dark Fantasy salva: '+(state.fields?.Nome||'Personagem')+'.'}
+ try{HurrasStorage.setItem(DARK_KEY,JSON.stringify(items));notice.textContent='Vida atualizada na ficha Dark Fantasy salva: '+(state.fields?.Nome||'Personagem')+'.'}
  catch(_){notice.textContent='Não foi possível salvar a Vida na ficha. Verifique o armazenamento.'}
 }
 function remember(){} // Alterações ocorrem apenas pelo botão de dano, sem edição automática da ficha.

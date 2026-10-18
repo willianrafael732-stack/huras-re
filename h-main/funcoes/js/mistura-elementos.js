@@ -21,8 +21,8 @@ if(typeof document==='undefined')return;
 const $=id=>document.getElementById(id),status=$('status'),selected=new Set(),storageKey='hurras.elemental-mixtures.v1';
 let engine,current=null,saved=[];
 function elem(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n}
-function loadSaved(){try{const raw=JSON.parse(localStorage.getItem(storageKey)||'[]');if(!Array.isArray(raw))return [];return raw.slice(0,50).flatMap(x=>{try{return [engine.combine(x.ids,x.dice,x.mana)]}catch{return []}})}catch{status.textContent='O armazenamento local está indisponível. Você ainda pode combinar e imprimir.';return []}}
-function persist(){try{localStorage.setItem(storageKey,JSON.stringify(saved));return true}catch{status.textContent='Não foi possível salvar neste navegador. Use Imprimir / PDF para guardar a mistura.';return false}}
+function loadSaved(){try{const raw=JSON.parse(HurrasStorage.getItem(storageKey)||'[]');if(!Array.isArray(raw))return [];return raw.slice(0,50).flatMap(x=>{try{return [engine.combine(x.ids,x.dice,x.mana)]}catch{return []}})}catch{status.textContent='O armazenamento local está indisponível. Você ainda pode combinar e imprimir.';return []}}
+function persist(){try{HurrasStorage.setItem(storageKey,JSON.stringify(saved));return true}catch{status.textContent='Não foi possível salvar neste navegador. Use Imprimir / PDF para guardar a mistura.';return false}}
 function update(){
  current=null;$('rollOutput').textContent='';$('selectionCount').textContent=selected.size+' de '+engine.elements.length+' elementos selecionados';
  for(const input of $('elements').querySelectorAll('input'))input.checked=selected.has(input.value);

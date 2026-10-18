@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+<head><script src="../portal/user-storage.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Hurras Fantasy - Raças & Classes</title>
@@ -49,4 +49,4 @@ function makeClass(name,c){const href=c.link||classLinks[name]||'#'; const init=
 function render(){const q=document.getElementById('search').value.trim().toLowerCase();let arr=[];if(tab!=='class')arr.push(...Object.entries(D.races).map(([n,r])=>({kind:'race',html:makeRace(n,r),search:(n+' '+JSON.stringify(r)).toLowerCase()})));if(tab!=='race')arr.push(...Object.entries(D.classes).map(([n,c])=>({kind:'class',html:makeClass(n,c),search:(n+' '+JSON.stringify(c)).toLowerCase()})));arr=arr.filter(x=>!q||x.search.includes(q));document.getElementById('catalog').innerHTML=arr.length?arr.map(x=>x.html).join(''):'<div class="empty">Nenhum resultado encontrado.</div>';document.getElementById('count').textContent=`${arr.length} opções`;document.getElementById('sectionTitle').textContent=tab==='race'?'Raças':tab==='class'?'Classes':'Raças e classes'}
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));render()});document.getElementById('search').oninput=render;render();
 </script>
-</body></html>
+<script defer src="../portal/account-session.js"></script></body></html>

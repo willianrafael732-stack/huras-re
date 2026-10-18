@@ -1,6 +1,6 @@
 (() => {
 'use strict';
-const DB_NAME='hurras_fantasy';
+const DB_NAME=HurrasStorage.database('hurras_fantasy');
 const DB_VERSION=2;
 const STORE='characters';
 const DRAFT_KEY='hurrasFichaDraftV6';
@@ -8,19 +8,19 @@ const CURRENT_ID_KEY='hurrasCurrentFichaId';
 const OWNER_KEY='hurrasOwnerId';
 const FALLBACK_KEY='hurrasVaultFallbackV2';
 const $=id=>document.getElementById(id);
-let currentId=localStorage.getItem(CURRENT_ID_KEY)||'';
+let currentId=HurrasStorage.getItem(CURRENT_ID_KEY)||'';
 let autosaveTimer=null;
 
 function uid(){return (crypto.randomUUID?crypto.randomUUID():'ficha-'+Date.now()+'-'+Math.random().toString(16).slice(2));}
-function ownerId(){let id=localStorage.getItem(OWNER_KEY);if(!id){id=uid();localStorage.setItem(OWNER_KEY,id)}return id}
+function ownerId(){let id=HurrasStorage.getItem(OWNER_KEY);if(!id){id=uid();HurrasStorage.setItem(OWNER_KEY,id)}return id}
 function cloneState(){try{return JSON.parse(JSON.stringify(state))}catch{return {}}}
 function capture(){const inputs={};document.querySelectorAll('.controls input,.controls select,.controls textarea').forEach(el=>{if(el.id&&el.type!=='file')inputs[el.id]=el.value});return {version:6,inputs,state:cloneState()}}
 function meta(data,id=currentId||uid()){return {id,name:(data.inputs?.name||'Sem nome').trim()||'Sem nome',player:(data.inputs?.player||'').trim(),race:data.inputs?.race||'',className:data.inputs?.class||'',updatedAt:new Date().toISOString(),data}}
 function setStatus(msg,kind=''){const el=$('storageStatus');if(!el)return;el.textContent=msg;el.className='storage-status '+kind}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-function fallbackAll(){try{return JSON.parse(localStorage.getItem(FALLBACK_KEY)||'[]').sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)))}catch{return []}}
-function fallbackWrite(rows){localStorage.setItem(FALLBACK_KEY,JSON.stringify(rows.slice(0,150)))}
+function fallbackAll(){try{return JSON.parse(HurrasStorage.getItem(FALLBACK_KEY)||'[]').sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)))}catch{return []}}
+function fallbackWrite(rows){HurrasStorage.setItem(FALLBACK_KEY,JSON.stringify(rows.slice(0,150)))}
 function fallbackPut(rec){const rows=fallbackAll().filter(x=>x.id!==rec.id);rows.unshift(rec);fallbackWrite(rows);return rec}
 function fallbackGet(id){return fallbackAll().find(x=>x.id===id)}
 function fallbackDelete(id){fallbackWrite(fallbackAll().filter(x=>x.id!==id))}
@@ -31,11 +31,11 @@ async function idbAll(){try{const db=await openDB();return await new Promise((re
 async function idbDelete(id){fallbackDelete(id);try{const db=await openDB();return await new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}catch(e){return}}
 
 function applyData(data){if(!data)return;Object.entries(data.inputs||{}).forEach(([id,v])=>{const el=$(id);if(el&&el.type!=='file')el.value=v});if(data.state){Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,JSON.parse(JSON.stringify(data.state)));if(Number(data.version||0)<6)state.wounds=0}updateSubclass();updateMagicSchools?.();if(data.inputs?.subclass)$('subclass').value=data.inputs.subclass;equipOptions();['weapon1','weapon2','armor','shield'].forEach(id=>{const v=data.inputs?.[id];if(v&&$(id)&&[...$(id).options].some(o=>o.value===v))$(id).value=v});renderSheets()}
-function saveDraft(){try{const data=capture();localStorage.setItem(DRAFT_KEY,JSON.stringify(data));localStorage.setItem('hurrasFichaV3',JSON.stringify(data));return data}catch(e){console.warn('Rascunho não salvo',e)}}
+function saveDraft(){try{const data=capture();HurrasStorage.setItem(DRAFT_KEY,JSON.stringify(data));HurrasStorage.setItem('hurrasFichaV3',JSON.stringify(data));return data}catch(e){console.warn('Rascunho não salvo',e)}}
 function scheduleDraft(){clearTimeout(autosaveTimer);autosaveTimer=setTimeout(()=>{saveDraft();setStatus('Rascunho salvo automaticamente no navegador.','good')},450)}
-async function saveVault(silent=false){try{const data=capture();const rec=meta(data,currentId||uid());currentId=rec.id;localStorage.setItem(CURRENT_ID_KEY,currentId);await idbPut(rec);saveDraft();await renderList();if(!silent)setStatus(`Ficha “${rec.name}” salva no cofre do navegador.`, 'good');return rec}catch(e){console.error(e);setStatus('Falha ao salvar no banco do navegador.','bad');throw e}}
-async function loadRecord(id){const rec=await idbGet(id);if(!rec)return;currentId=id;localStorage.setItem(CURRENT_ID_KEY,id);applyData(rec.data);saveDraft();setStatus(`Ficha “${rec.name}” carregada.`, 'good')}
-async function removeRecord(id){if(!confirm('Excluir esta ficha do navegador?'))return;await idbDelete(id);if(currentId===id){currentId='';localStorage.removeItem(CURRENT_ID_KEY)}await renderList();setStatus('Ficha excluída do cofre local.')}
+async function saveVault(silent=false){try{const data=capture();const rec=meta(data,currentId||uid());currentId=rec.id;HurrasStorage.setItem(CURRENT_ID_KEY,currentId);await idbPut(rec);saveDraft();await renderList();if(!silent)setStatus(`Ficha “${rec.name}” salva no cofre do navegador.`, 'good');if(window.HurrasAccount&&HurrasStorage.owner!=='guest'){try{await HurrasAccount.saveSheet('classic',rec.id,rec.name,rec);if(!silent)setStatus('Ficha salva no navegador e na sua conta.','good')}catch{if(!silent)setStatus('Ficha salva neste navegador. Não foi possível salvar online; tente novamente.','bad')}}return rec}catch(e){console.error(e);setStatus('Falha ao salvar no banco do navegador.','bad');throw e}}
+async function loadRecord(id){const rec=await idbGet(id);if(!rec)return;currentId=id;HurrasStorage.setItem(CURRENT_ID_KEY,id);applyData(rec.data);saveDraft();setStatus(`Ficha “${rec.name}” carregada.`, 'good')}
+async function removeRecord(id){if(!confirm('Excluir esta ficha do navegador?'))return;await idbDelete(id);if(currentId===id){currentId='';HurrasStorage.removeItem(CURRENT_ID_KEY)}await renderList();setStatus('Ficha excluída do cofre local.')}
 async function renderList(){const host=$('storageList');if(!host)return;let rows=[];try{rows=await idbAll()}catch(e){host.innerHTML='<div class="empty-save">IndexedDB indisponível neste navegador.</div>';return}if(!rows.length){host.innerHTML='<div class="empty-save">Nenhuma ficha no cofre ainda. Clique em “Salvar no cofre”.</div>';return}host.innerHTML=rows.map(r=>`<article class="save-card"><strong>${esc(r.name)}</strong><small>${esc(r.race)} · ${esc(r.className)}${r.player?' · '+esc(r.player):''}<br>${new Date(r.updatedAt).toLocaleString('pt-BR')}</small><div class="card-actions"><button data-load="${r.id}">Abrir</button><button data-delete="${r.id}">Excluir</button></div></article>`).join('');host.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>loadRecord(b.dataset.load));host.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>removeRecord(b.dataset.delete));host.querySelectorAll('[data-sync]').forEach(b=>b.onclick=async()=>{const rec=await idbGet(b.dataset.sync);if(rec)await pushServer(rec)});}
 
 function serverAvailableProtocol(){return location.protocol==='http:'||location.protocol==='https:'}
@@ -45,11 +45,11 @@ async function pushServer(rec){try{await api('/characters',{method:'POST',body:J
 async function syncCurrent(){const rec=await saveVault(true);await pushServer(rec)}
 async function pullServer(){try{const remote=await api('/characters');if(!remote.length){setStatus('Nenhuma ficha encontrada no banco do site.');return}for(const rec of remote)await idbPut(rec);await renderList();setStatus(`${remote.length} ficha(s) do site copiadas para o navegador.`, 'good')}catch(e){setStatus(e.message||'Falha ao buscar fichas do site.','bad')}}
 
-function newSheet(){if(!confirm('Criar uma ficha nova? O rascunho atual continuará no cofre se você já o salvou.'))return;currentId='';localStorage.removeItem(CURRENT_ID_KEY);document.querySelectorAll('.controls input,.controls textarea').forEach(el=>{if(el.type!=='file')el.value=el.id==='xp'?'0':''});$('level').value='1';state.base={};state.wounds=0;state.mana=5;elements.forEach(x=>{state.magic[x]=0;state.resist[x]=0});fillOptions();updateSubclass();updateMagicSchools?.();equipOptions();applyRaceTemplate();renderSheets();saveDraft();setStatus('Nova ficha criada.')}
-function clearDraft(){if(!confirm('Limpar apenas o rascunho automático deste navegador? As fichas do cofre não serão apagadas.'))return;localStorage.removeItem(DRAFT_KEY);localStorage.removeItem('hurrasFichaV3');setStatus('Rascunho automático removido. As fichas do cofre foram mantidas.')}
-async function migrateOld(){try{const rows=await idbAll();if(rows.length)return;const raw=localStorage.getItem('hurrasFichaV3')||localStorage.getItem('hurrasFichaV2');if(!raw)return;const data=JSON.parse(raw);if(!data?.inputs)return;const rec=meta(data);currentId=rec.id;localStorage.setItem(CURRENT_ID_KEY,currentId);await idbPut(rec)}catch(e){console.warn('Migração ignorada',e)}}
-function loadDraft(){try{const raw=localStorage.getItem(DRAFT_KEY)||localStorage.getItem('hurrasFichaDraftV5')||localStorage.getItem('hurrasFichaDraftV4');if(raw)applyData(JSON.parse(raw))}catch(e){console.warn(e)}}
-function freshStartup(){currentId='';localStorage.removeItem(CURRENT_ID_KEY);localStorage.removeItem(DRAFT_KEY);localStorage.removeItem('hurrasFichaV3');document.querySelectorAll('.controls input,.controls textarea').forEach(el=>{if(el.type!=='file')el.value=el.id==='xp'?'0':''});$('level').value='1';state.base={};state.wounds=0;state.mana=5;elements.forEach(x=>{state.magic[x]=0;state.resist[x]=0});fillOptions();updateSubclass();updateMagicSchools?.();equipOptions();applyRaceTemplate();renderSheets();saveDraft();setStatus('Nova ficha pronta para criação.','good')}
+function newSheet(){if(!confirm('Criar uma ficha nova? O rascunho atual continuará no cofre se você já o salvou.'))return;currentId='';HurrasStorage.removeItem(CURRENT_ID_KEY);document.querySelectorAll('.controls input,.controls textarea').forEach(el=>{if(el.type!=='file')el.value=el.id==='xp'?'0':''});$('level').value='1';state.base={};state.wounds=0;state.mana=5;elements.forEach(x=>{state.magic[x]=0;state.resist[x]=0});fillOptions();updateSubclass();updateMagicSchools?.();equipOptions();applyRaceTemplate();renderSheets();saveDraft();setStatus('Nova ficha criada.')}
+function clearDraft(){if(!confirm('Limpar apenas o rascunho automático deste navegador? As fichas do cofre não serão apagadas.'))return;HurrasStorage.removeItem(DRAFT_KEY);HurrasStorage.removeItem('hurrasFichaV3');setStatus('Rascunho automático removido. As fichas do cofre foram mantidas.')}
+async function migrateOld(){try{const rows=await idbAll();if(rows.length)return;const raw=HurrasStorage.getItem('hurrasFichaV3')||HurrasStorage.getItem('hurrasFichaV2');if(!raw)return;const data=JSON.parse(raw);if(!data?.inputs)return;const rec=meta(data);currentId=rec.id;HurrasStorage.setItem(CURRENT_ID_KEY,currentId);await idbPut(rec)}catch(e){console.warn('Migração ignorada',e)}}
+function loadDraft(){try{const raw=HurrasStorage.getItem(DRAFT_KEY)||HurrasStorage.getItem('hurrasFichaDraftV5')||HurrasStorage.getItem('hurrasFichaDraftV4');if(raw)applyData(JSON.parse(raw))}catch(e){console.warn(e)}}
+function freshStartup(){currentId='';HurrasStorage.removeItem(CURRENT_ID_KEY);HurrasStorage.removeItem(DRAFT_KEY);HurrasStorage.removeItem('hurrasFichaV3');document.querySelectorAll('.controls input,.controls textarea').forEach(el=>{if(el.type!=='file')el.value=el.id==='xp'?'0':''});$('level').value='1';state.base={};state.wounds=0;state.mana=5;elements.forEach(x=>{state.magic[x]=0;state.resist[x]=0});fillOptions();updateSubclass();updateMagicSchools?.();equipOptions();applyRaceTemplate();renderSheets();saveDraft();setStatus('Nova ficha pronta para criação.','good')}
 function wire(){const oldSave=$('save'),oldLoad=$('load');if(oldSave)oldSave.onclick=()=>saveVault();if(oldLoad)oldLoad.onclick=()=>{location.href='criacao-de-ficha.html'};$('saveVault').onclick=()=>saveVault();$('newSheet').onclick=newSheet;$('clearDraft').onclick=clearDraft;document.querySelectorAll('.controls input,.controls select,.controls textarea').forEach(el=>{if(el.type!=='file'){el.addEventListener('input',scheduleDraft);el.addEventListener('change',scheduleDraft)}});window.addEventListener('beforeunload',saveDraft)}
 window.HurrasStorage={saveDraft,saveVault,capture,restore(data){applyData(data);saveDraft()}};
 (async()=>{wire();const params=new URLSearchParams(location.search);const wantsNew=params.get('new')==='1';const openId=params.get('open');if(wantsNew){freshStartup();if(params.get('random')==='1'&&typeof randomize==='function'){randomize();saveDraft()}}else{loadDraft()}await migrateOld();if(openId)await loadRecord(openId);await renderList();saveDraft()})()
