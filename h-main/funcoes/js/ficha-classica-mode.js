@@ -15,7 +15,7 @@ function switchMode(pdf){
  edit.classList.toggle('classic-mode-selected',!pdf);
  preview.classList.toggle('classic-mode-selected',pdf);
  pages.setAttribute('aria-label',pdf?'Pré-visualização para PDF: duas páginas A4 da ficha Hurras Fantasy':'Ficha Hurras Fantasy editável com duas páginas A4');
- if(pdf)window.HurrasStorage?.saveDraft?.();
+ if(pdf)window.HurrasFichaStorage?.saveDraft?.();
 }
 edit.addEventListener('click',()=>switchMode(false));
 preview.addEventListener('click',()=>switchMode(true));

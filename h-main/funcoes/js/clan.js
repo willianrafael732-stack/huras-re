@@ -21,11 +21,11 @@ function specialModifier(stat){let total=0;const r=currentRace(),c=currentClass(
 function maxVitality(){const level=Math.max(1,Math.min(10,Number(E('level').value)||1));return level*10}
 function maxMana(){const level=Math.max(1,Math.min(10,Number(E('level').value)||1));return level*5}
 function vitalityCurrent(){const max=maxVitality();state.wounds=Math.max(0,Math.min(max,Number(state.wounds)||0));return max-state.wounds}
-function setWounds(v){state.wounds=Math.max(0,Math.min(maxVitality(),Number(v)||0));renderSheets();window.HurrasStorage?.saveDraft?.()}
-function setVitality(v){const max=maxVitality();const current=Math.max(0,Math.min(max,Number(v)||0));state.wounds=max-current;renderSheets();window.HurrasStorage?.saveDraft?.()}
+function setWounds(v){state.wounds=Math.max(0,Math.min(maxVitality(),Number(v)||0));renderSheets();window.HurrasFichaStorage?.saveDraft?.()}
+function setVitality(v){const max=maxVitality();const current=Math.max(0,Math.min(max,Number(v)||0));state.wounds=max-current;renderSheets();window.HurrasFichaStorage?.saveDraft?.()}
 function damageVitality(n=1){setWounds((Number(state.wounds)||0)+n)}
 function healVitality(n=1){setWounds((Number(state.wounds)||0)-n)}
-function setMana(v){state.mana=Math.max(0,Math.min(maxMana(),Number(v)||0));renderSheets();window.HurrasStorage?.saveDraft?.()}
+function setMana(v){state.mana=Math.max(0,Math.min(maxMana(),Number(v)||0));renderSheets();window.HurrasFichaStorage?.saveDraft?.()}
 function baseDefault(stat){const r=currentRace();const key=(aliases[stat]||[])[0];if(r.template&&r.template[key]!=null)return Number(r.template[key]);return ['Força','Destreza','Vigor','Carisma','Manipulação','Persuasão','Percepção','Inteligência','Reação'].includes(stat)?1:0}
 function base(stat){if(state.base[stat]==null)state.base[stat]=baseDefault(stat);return state.base[stat]}
 function final(stat){return Math.max(0,Math.min(10,base(stat)+modifier(stat).total))}
@@ -127,7 +127,7 @@ function zeroAllPoints(){
  state.mana=0;
  for(const key of elements){state.magic[key]=0;state.resist[key]=0}
  renderSheets();
- window.HurrasStorage?.saveDraft?.();
+ window.HurrasFichaStorage?.saveDraft?.();
 }
 function resetStats(){state.base={};applyRaceTemplate();renderSheets()}
 function pick(arr){return arr?.length?arr[Math.floor(Math.random()*arr.length)]:''}
@@ -145,9 +145,9 @@ function randomize(){
  state.wounds=0;state.mana=maxMana();elements.forEach(x=>{state.magic[x]=0;state.resist[x]=0});if(E('magicSchool').value!=='Nenhuma')state.magic[E('magicSchool').value]=Math.min(10,1+Math.floor(level/2));(currentRace().magicSchools||[]).forEach(x=>state.resist[x]=Math.max(state.resist[x],1));
  const school=E('magicSchool').value,spells=school==='Nenhuma'?[]:shuffled(D.spells?.[school]||[]).slice(0,Math.min(8,2+Math.floor(level/2)));E('knownSpells').value=spells.map(x=>x.name).join(', ');
  E('extraPassives').value='';E('notesText').value=`${E('name').value} carrega as marcas de ${E('chronicle').value} e busca sobreviver sem quebrar seu juramento.`;E('itemsText').value=['Frasco de cura','Pedra de retorno',D.weapons[E('weapon1').value]?.name,E('armor').value].filter(Boolean).join('\n');E('achievementsText').value=level>=7?'Sobreviveu a uma grande caçada\nCarrega uma relíquia marcada':level>=4?'Venceu um inimigo de elite':'Primeiro juramento';
- renderSheets();if(window.HurrasStorage?.saveDraft)window.HurrasStorage.saveDraft();
+ renderSheets();if(window.HurrasFichaStorage?.saveDraft)window.HurrasFichaStorage.saveDraft();
 }
 function save(){const obj={inputs:{},state};document.querySelectorAll('.controls input,.controls select,.controls textarea').forEach(el=>obj.inputs[el.id]=el.value);HurrasStorage.setItem('hurrasFichaV3',JSON.stringify(obj));alert('Ficha salva neste navegador.')}
 function load(){try{const raw=HurrasStorage.getItem('hurrasFichaV3')||HurrasStorage.getItem('hurrasFichaV2');const obj=JSON.parse(raw);if(!obj)return alert('Nenhuma ficha salva.');Object.entries(obj.inputs||{}).forEach(([id,v])=>{if(E(id))E(id).value=v});Object.assign(state,obj.state||{});updateSubclass();E('subclass').value=obj.inputs?.subclass||'';equipOptions();['weapon1','weapon2','armor','shield'].forEach(id=>{if(obj.inputs?.[id]&&[...E(id).options].some(o=>o.value===obj.inputs[id]))E(id).value=obj.inputs[id]});renderSheets()}catch(e){alert('Não foi possível carregar a ficha salva.')}}
 fillOptions();const params=new URLSearchParams(location.search);if(params.get('race')&&D.races[params.get('race')])E('race').value=params.get('race');if(params.get('class')&&D.classes[params.get('class')])E('class').value=params.get('class');updateSubclass();updateMagicSchools();equipOptions();if(params.get('weapon')&&[...E('weapon1').options].some(o=>o.value===params.get('weapon')))E('weapon1').value=params.get('weapon');applyRaceTemplate();renderSheets();
-E('class').onchange=onClassChanged;E('race').onchange=()=>{state.base={};applyRaceTemplate();state.wounds=Math.min(state.wounds,maxVitality());updateMagicSchools();renderSheets()};E('subclass').onchange=renderSheets;['weapon1','weapon2','armor','shield','magicSchool'].forEach(id=>E(id).onchange=renderSheets);E('level').onchange=()=>{state.wounds=Math.min(state.wounds,maxVitality());state.mana=maxMana();renderSheets();window.HurrasStorage?.saveDraft?.()};['name','player','chronicle','nature','behavior','profession','belief','xp','coins','knownSpells','extraPassives','itemsText','achievementsText','notesText'].forEach(id=>E(id).oninput=renderSheets);E('apply').onclick=renderSheets;E('resetStats').onclick=resetStats;E('zeroAllPoints').onclick=zeroAllPoints;E('random').onclick=randomize;E('save').onclick=save;E('load').onclick=load;E('printBtn').onclick=()=>{renderSheets();const old=document.title;document.title=((E('name').value||'Ficha Hurras Fantasy')+' - Hurras Fantasy');setTimeout(()=>{window.print();setTimeout(()=>document.title=old,500)},120)};
+E('class').onchange=onClassChanged;E('race').onchange=()=>{state.base={};applyRaceTemplate();state.wounds=Math.min(state.wounds,maxVitality());updateMagicSchools();renderSheets()};E('subclass').onchange=renderSheets;['weapon1','weapon2','armor','shield','magicSchool'].forEach(id=>E(id).onchange=renderSheets);E('level').onchange=()=>{state.wounds=Math.min(state.wounds,maxVitality());state.mana=maxMana();renderSheets();window.HurrasFichaStorage?.saveDraft?.()};['name','player','chronicle','nature','behavior','profession','belief','xp','coins','knownSpells','extraPassives','itemsText','achievementsText','notesText'].forEach(id=>E(id).oninput=renderSheets);E('apply').onclick=renderSheets;E('resetStats').onclick=resetStats;E('zeroAllPoints').onclick=zeroAllPoints;E('random').onclick=randomize;E('save').onclick=save;E('load').onclick=load;E('printBtn').onclick=()=>{renderSheets();const old=document.title;document.title=((E('name').value||'Ficha Hurras Fantasy')+' - Hurras Fantasy');setTimeout(()=>{window.print();setTimeout(()=>document.title=old,500)},120)};

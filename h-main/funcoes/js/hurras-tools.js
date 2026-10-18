@@ -14,8 +14,8 @@ root.insertAdjacentElement('afterend',panel);
 panel.innerHTML='<h2>Ferramentas do personagem</h2><div class="ht-nav"></div><div class="ht-content"></div><p class="ht-status" role="status"></p>';
 const nav=panel.querySelector('.ht-nav'),content=panel.querySelector('.ht-content'),notice=panel.querySelector('.ht-status');
 const api=()=>window.HurrasDarkSheetAPI;
-const get=()=>dark?api()?.get():window.HurrasStorage?.capture();
-const restore=v=>{if(dark)api()?.update(v);else window.HurrasStorage?.restore(v)};
+const get=()=>dark?api()?.get():window.HurrasFichaStorage?.capture();
+const restore=v=>{if(dark)api()?.update(v);else window.HurrasFichaStorage?.restore(v)};
 const level=()=>Math.max(1,Math.min(10,Number(dark?get()?.fields?.['Nível']:get()?.inputs?.level)||1));
 const ident=()=>dark?(get()?.id||'novo'):(HurrasStorage.getItem('hurrasCurrentFichaId')||'rascunho');
 const key=()=> (dark?'dark:':'classic:')+ident();
@@ -74,7 +74,7 @@ function conditions(){try{const a=JSON.parse(HurrasStorage.getItem(conditionKey(
 function saveConditions(items){
  // Uma nova ficha ainda sem ID recebe o seu próprio registro ao usar condições.
  if(dark&&!get()?.id)api()?.save();
- else if(!dark&&!HurrasStorage.getItem('hurrasCurrentFichaId'))window.HurrasStorage?.saveDraft?.();
+ else if(!dark&&!HurrasStorage.getItem('hurrasCurrentFichaId'))window.HurrasFichaStorage?.saveDraft?.();
  try{HurrasStorage.setItem(conditionKey(),JSON.stringify(items))}
  catch(e){setNotice('Não foi possível salvar a condição.')}
  show()
@@ -143,7 +143,7 @@ function equip(){
   if(dark){const state=get(),i=Number(slot.value);state.gear[i]=w.name;state.adv=[];state.disadv=[];restore(state)}
   else {const select=byId(slot.value);const option=select&&[...select.options].find(x=>x.value===w.name);
    if(!option)return setNotice('Selecione um espaço compatível com o tipo do equipamento.');
-   select.value=w.name;select.dispatchEvent(new Event('change',{bubbles:true}));window.HurrasStorage?.saveDraft?.()
+   select.value=w.name;select.dispatchEvent(new Event('change',{bubbles:true}));window.HurrasFichaStorage?.saveDraft?.()
   }
   setNotice('Equipamento aplicado.');show()
  },row);
@@ -205,7 +205,7 @@ function magic(){
  button('Adicionar magia',()=>{
   const name=spell.value;if(!name)return;remember();
   if(dark){const d=get();if(d.magic.includes(name))return setNotice('Magia já presente.');let i=Array.from({length:18},(_,k)=>k).find(k=>!d.magic[k]);if(i===undefined)return setNotice('Sem espaço para outra magia.');d.magic[i]=name;d.fields.Elemento=school.value;restore(d)}
-  else {const area=byId('knownSpells'),values=area.value.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);if(!values.includes(name))values.push(name);area.value=values.join(', ');window.renderSheets();window.HurrasStorage?.saveDraft?.()}
+  else {const area=byId('knownSpells'),values=area.value.split(/[\n,]/).map(x=>x.trim()).filter(Boolean);if(!values.includes(name))values.push(name);area.value=values.join(', ');window.renderSheets();window.HurrasFichaStorage?.saveDraft?.()}
   setNotice('Magia adicionada à ficha.');show();
  },picker)
 }
