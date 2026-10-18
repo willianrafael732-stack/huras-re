@@ -2,7 +2,7 @@
 [...new Set(DATA.map(x=>x[2]))].sort().forEach(x=>{const a=document.createElement('option');a.value=a.textContent=x;t.append(a)});
 function elem(name,text,cls){let e=document.createElement(name);if(text!==null)e.textContent=text;if(cls)e.className=cls;return e}
 const combatState=Object.create(null);
-function details(x){const level=x[1];const boss=level>=21||['Entidade','Dragão'].includes(x[2]);const pv=Math.round((boss?35:22)+level*(boss?16:10));const defesa=8+Math.ceil(level*.8);const dano=Math.max(1,Math.ceil(level/4))+'d6';const d=elem('details');const summary=elem('summary','📜 Abrir ficha individual');const box=elem('div',null,'monster-sheet-mini');box.append(elem('div','☠ HURRAS RPG • BESTIÁRIO','sheet-kicker'));box.append(elem('h4',x[0]));box.append(elem('p','Nível '+level+' • Tipo: '+x[2]+' • Afinidade: '+x[3]));const status=elem('div',null,'sheet-mini-status');[['❤️ Vitalidade',pv+' PV'],['🛡️ Defesa',defesa],['⚔️ Dano',dano]].forEach(y=>{const p=elem('p');p.append(elem('b',y[0]),elem('strong',y[1]));status.append(p)});box.append(status);const id=elem('div',null,'sheet-mini-block');id.append(elem('h5','🧬 IDENTIDADE'),elem('p','Tipo: '+x[2]),elem('p','Afinidade: '+x[3]));const atk=elem('div',null,'sheet-mini-block');atk.append(elem('h5','⚔️ ATAQUE PRINCIPAL'),elem('p',x[4]));const sp=elem('div',null,'sheet-mini-block');sp.append(elem('h5','✨ HABILIDADE ESPECIAL'),elem('p',x[5]));box.append(id,atk,sp);const note=elem('small','Valores indicativos para adaptar durante a mesa; não substituem as regras oficiais do Hurras.','meta');
+function details(x){const level=x[1];const boss=level>=21||['Entidade','Dragão'].includes(x[2]);const pv=Math.round((boss?35:22)+level*10);const defesa=8+Math.ceil(level*.8);const dano=Math.max(1,Math.ceil(level/4))+'d10';const d=elem('details');const summary=elem('summary','📜 Abrir ficha individual');const box=elem('div',null,'monster-sheet-mini');box.append(elem('div','☠ HURRAS RPG • BESTIÁRIO','sheet-kicker'));box.append(elem('h4',x[0]));box.append(elem('p','Nível '+level+' • Tipo: '+x[2]+' • Afinidade: '+x[3]));const status=elem('div',null,'sheet-mini-status');[['❤️ Vitalidade',pv+' PV'],['🛡️ Defesa',defesa],['⚔️ Dano',dano]].forEach(y=>{const p=elem('p');p.append(elem('b',y[0]),elem('strong',y[1]));status.append(p)});box.append(status);const id=elem('div',null,'sheet-mini-block');id.append(elem('h5','🧬 IDENTIDADE'),elem('p','Tipo: '+x[2]),elem('p','Afinidade: '+x[3]));const atk=elem('div',null,'sheet-mini-block');atk.append(elem('h5','⚔️ ATAQUE PRINCIPAL'),elem('p',x[4]));const sp=elem('div',null,'sheet-mini-block');sp.append(elem('h5','✨ HABILIDADE ESPECIAL'),elem('p',x[5]));box.append(id,atk,sp);const note=elem('small','Valores indicativos para adaptar durante a mesa; não substituem as regras oficiais do Hurras.','meta');
 const tools=elem('div',null,'monster-tracker'),heading=elem('h4','Acompanhamento de combate (nesta sessão)'),bar=document.createElement('progress'),counter=elem('output');
 bar.max=pv;bar.value=pv;bar.setAttribute('aria-label','PV restantes de '+x[0]);
 let currentPv=combatState[x[0]]??pv;currentPv=Math.min(pv,Math.max(0,currentPv));
@@ -10,7 +10,7 @@ function show(){bar.value=currentPv;counter.textContent=currentPv+' / '+pv+' PV'
 show();const actions=elem('div',null,'monster-tracker-actions');
 [[-10,'-10 dano'],[-5,'-5 dano'],[-1,'-1 dano'],[5,'+5 cura'],[pv,'Restaurar']].forEach(([amount,label])=>{const b=elem('button',label);b.type='button';b.className='monster-action';b.addEventListener('click',()=>{currentPv=amount===pv?pv:Math.max(0,Math.min(pv,currentPv+amount));combatState[x[0]]=currentPv;show()});actions.append(b)});
 const roll=elem('button','⚄ Rolar dano ('+dano+')','monster-action');roll.type='button';
-const output=elem('output','', 'monster-roll');roll.addEventListener('click',()=>{const faces=Number(dano.split('d')[0]);let total=0;for(let i=0;i<faces;i++)total+=Math.floor(Math.random()*6)+1;output.textContent='Dano rolado: '+total;});actions.append(roll);
+const output=elem('output','', 'monster-roll');roll.addEventListener('click',()=>{const faces=Number(dano.split('d')[0]);let total=0;for(let i=0;i<faces;i++)total+=Math.floor(Math.random()*10)+1;output.textContent='Dano rolado: '+total;});actions.append(roll);
 tools.append(heading,counter,bar,actions,output);d.append(summary,box,tools,note);return d}
 function render(){all.replaceChildren();let filt=DATA.filter(x=>(!q.value||x.join(' ').toLocaleLowerCase('pt-BR').includes(q.value.toLocaleLowerCase('pt-BR')))&&(!t.value||x[2]===t.value)&&(!l.value||(l.value==='1'?x[1]<=5:l.value==='6'?x[1]>=6&&x[1]<=10:l.value==='11'?x[1]>=11&&x[1]<=20:x[1]>=21))).slice();
 filt.sort((a,b)=>sort.value==='level'?a[1]-b[1]:sort.value==='reverse'?b[1]-a[1]:a[0].localeCompare(b[0],'pt-BR'));
@@ -19,11 +19,11 @@ if(x[6]){const im=document.createElement('img');im.className='monster-portrait';
 a.append(elem('span','NÍVEL '+x[1]+' · '+x[2],'badge'),elem('h3',x[0]));
 let dl=document.createElement('dl');[['Afinidade',x[3]],['Ataque',x[4]],['Habilidade',x[5]]].forEach(([label,value])=>{dl.append(elem('dt',label),elem('dd',value))});a.append(dl);
 const level=x[1],chefao=level>=21||['Entidade','Dragão'].includes(x[2]);
-const hp=Math.round((chefao?35:22)+level*(chefao?16:10));
+const hp=Math.round((chefao?35:22)+level*10);
 const dice=Math.max(1,Math.ceil(level/4));
-const media=Math.round(dice*3.5);
+const media=Math.round(dice*5.5);
 const combat=elem('div',null,'monster-combat');
-combat.append(elem('div','❤  '+hp+' PV','monster-hp'),elem('div','⚔  '+media+' DANO médio ('+dice+'d6)','monster-dmg'));
+combat.append(elem('div','❤  '+hp+' PV','monster-hp'),elem('div','⚔  '+media+' DANO médio ('+dice+'d10)','monster-dmg'));
 combat.setAttribute('aria-label','Vida sugerida: '+hp+' pontos de vida; dano médio sugerido: '+media+' pontos');
 a.append(combat,details(x));all.append(a)}
 document.getElementById('count').textContent=filt.length+' de '+DATA.length+' monstros, chefes e criaturas'}

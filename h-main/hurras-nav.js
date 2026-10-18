@@ -1,3 +1,4 @@
+window.HurrasPages=["animais/ficha-animal.html", "armas/Instrumentais.html", "armas/Runas.html", "armas/armaduras.html", "armas/armas.html", "armas/curtoalacance.html", "armas/encantos.html", "armas/escudo.html", "armas/longo.html", "armas/magicos.html", "armas/medioalcance.html", "armas/medioalcance2M.html", "classes/Troll.html", "classes/anao.html", "classes/anjo.html", "classes/demonio.html", "classes/djinn.html", "classes/draconiano.html", "classes/elfo.html", "classes/fada.html", "classes/faunos.html", "classes/gigante.html", "classes/goblin.html", "classes/homem-fera.html", "classes/humano.html", "classes/lich.html", "classes/lobisomem.html", "classes/meio-elfo.html", "classes/meio-orc.html", "classes/metamorfo.html", "classes/minotauro.html", "classes/orc.html", "classes/reptiliano.html", "classes/sereianos.html", "classes/vampiro.html", "classes/zumbi.html", "cofre.html", "funcoes/alquimia.html", "funcoes/arena-batalha.html", "funcoes/arquivo-npcs.html", "funcoes/bestiario.html", "funcoes/bestiario/index.html", "funcoes/catalogo.html", "funcoes/catalogo/index.html", "funcoes/clan.html", "funcoes/criacao-de-ficha.html", "funcoes/dark-personagens.html", "funcoes/deuses.html", "funcoes/deuses/index.html", "funcoes/deuses2/index.html", "funcoes/galeria-i.html", "funcoes/grimorio-elemental-legado.html", "funcoes/habilidades.html", "funcoes/index.html", "funcoes/inicio.html", "funcoes/inimigo.html", "funcoes/magia.html", "funcoes/mestre.html", "funcoes/minerios.html", "funcoes/personagens.html", "funcoes/porcao.html", "funcoes/racaeclasses.html", "funcoes/sistema-completo.html", "index.html", "mesa/index.html", "npc/npc.html", "portal/teste-mestre.html", "profissao/profissoes.html", "raca/arqueiro.html", "raca/bardo.html", "raca/bruxo.html", "raca/clerigo.html", "raca/domador.html", "raca/druida.html", "raca/guerreiro.html", "raca/ladino.html", "raca/lanceiro.html", "raca/mago.html", "raca/monge.html", "raca/necromante.html", "raca/ninja.html", "raca/tecnomancer.html", "raca/transmutador.html"];
 /* Navegação compartilhada Hurras Fantasy • arquivo estático, sem dependências */
 (()=>{
 'use strict';
@@ -10,11 +11,11 @@ const url=(path)=>new URL(path,origin).href;
 const path=decodeURIComponent(location.pathname).toLowerCase();
 const groups=[
 {label:'Começar',icon:'⌂',items:[
-['Início','index.html','Portal Player e Mestre'],['Mesa • Login e chat','mesa/index.html','Mestre, jogadores, d10, PDF e áudio'],['Catálogo geral','funcoes/catalogo.html'],['Catálogo especial','funcoes/catalogo/index.html','Adversários e eventos do Ragnarök'],
+['Início','index.html','Portal Player e Mestre'],['Mesa • Login e chat','mesa/index.html','Mestre, jogadores, d10, PDF e áudio'],['Catálogo geral','funcoes/catalogo.html'],['Catálogo especial','funcoes/catalogo.html','Adversários e eventos do Ragnarök'],
 ['Minhas fichas','funcoes/criacao-de-ficha.html','Retomar personagens clássicos'],
 ['Nova ficha clássica','funcoes/clan.html?new=1','Forja original'],
 ,
-['Biblioteca','funcoes/biblioteca.html','Todas as opções do jogo']]},
+['Biblioteca','funcoes/catalogo.html','Todas as opções do jogo']]},
 {label:'Personagem',icon:'◈',items:[
 ['Criar ficha clássica','funcoes/clan.html','Editor de personagem'],
 ['Cofre de personagens','funcoes/criacao-de-ficha.html','Fichas salvas'],
@@ -47,19 +48,19 @@ const groups=[
 ['Encantos','armas/encantos.html','Encantamentos'],
 ['Armas instrumentais','armas/Instrumentais.html','Ferramentas especiais']]},
 {label:'Mundo & seres',icon:'♜',items:[
-['Bestiário • fichas completas','funcoes/bestiario/index.html','110 criaturas do arquivo + 19 seres nórdicos'],
-['✦ Deuses • compêndio completo','funcoes/deuses2/index.html','66 fichas, 228 divindades, bestiário, NPCs e Ragnarök'],
+['Bestiário • fichas completas','funcoes/bestiario.html','Criaturas e chefes do acervo'],
+['✦ Deuses • compêndio completo','funcoes/deuses.html','Panteões e fichas disponíveis'],
 ['Galeria de imagens','funcoes/galeria-i.html','192 imagens originais assets/i'],
-['Animais','animais/animais.html','Criaturas e companheiros'],
+['Animais','animais/ficha-animal.html','Criaturas e companheiros'],
 ['NPCs conhecidos','funcoes/npcs.html','Revelados aos jogadores'],
 ['Arquivo de NPCs • 43','funcoes/arquivo-npcs.html','Todos os NPCs reunidos'],
-['Biblioteca','funcoes/biblioteca.html','Coleção de referências']]},
+['Biblioteca','funcoes/catalogo.html','Coleção de referências']]},
 {label:'Mestre',icon:'♛',items:[
 ['Painel do mestre','funcoes/mestre.html','Preparar sessões'],
 ['NPCs do mestre','funcoes/mestre-npcs.html','Notas e segredos da campanha'],
 ['Arquivo de NPCs','funcoes/arquivo-npcs.html','43 NPCs da campanha'],
-['☠ Bestiário completo','funcoes/bestiario/index.html','Criaturas e chefes + textos originais'],
-['✦ Panteão dos Deuses','funcoes/deuses2/index.html','Divindades, Thor e semideuses'],
+['☠ Bestiário completo','funcoes/bestiario.html','Criaturas e chefes + textos originais'],
+['✦ Panteão dos Deuses','funcoes/deuses.html','Divindades, Thor e semideuses'],
 ['Regras completas','funcoes/sistema-completo.html','Livro do mestre'],
 ['Forja de ficha','funcoes/clan.html','Gerenciar personagens']]},
 {label:'Raças',icon:'♟',items:[
@@ -85,7 +86,8 @@ const groups=[
 ['Ninja','raca/ninja.html','Classe'],['Tecnomante','raca/tecnomancer.html','Classe'],
 ['Transmutador','raca/transmutador.html','Classe']]}
 ];
-const mainLinks=[['Mesa e chat','mesa/index.html'],['Início','index.html'],['Fichas','funcoes/criacao-de-ficha.html'],['Regras','funcoes/sistema-completo.html'],['☠ Bestiário','funcoes/bestiario/index.html'],['✦ Panteão','funcoes/deuses2/index.html'],['NPCs','funcoes/arquivo-npcs.html'],['Mestre','funcoes/mestre.html']];
+for(const g of groups)g.items=g.items.filter(i=>i&&window.HurrasPages.includes(i[1].split("?")[0]));
+const mainLinks=[['Mesa e chat','mesa/index.html'],['Início','index.html'],['Fichas','funcoes/criacao-de-ficha.html'],['Regras','funcoes/sistema-completo.html'],['☠ Bestiário','funcoes/bestiario.html'],['✦ Panteão','funcoes/deuses.html'],['NPCs','funcoes/arquivo-npcs.html'],['Mestre','funcoes/mestre.html']];
 const normalize=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const unique=[...new Map(groups.flatMap(g=>g.items.map(i=>[i[1],{...{group:g.label},name:i[0],path:i[1],detail:i[2]}]))).values()];
 function E(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined&&txt!==null)e.textContent=txt;return e}
@@ -98,12 +100,12 @@ header.setAttribute('role','navigation');header.setAttribute('aria-label','Naveg
 const head=E('div','hnav-top');const brand=A('✦ HURRAS FANTASY','index.html','hnav-brand');brand.setAttribute('aria-label','Hurras Fantasy - início');head.append(brand);
 const compact=E('div','hnav-actions');const search=E('button','hnav-search','⌕  Buscar páginas');search.type='button';search.setAttribute('aria-keyshortcuts','Control+K');const menu=E('button','hnav-menu-btn','☰  Todas as opções');menu.type='button';menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-controls','hnav-drawer');compact.append(search,menu);head.append(compact);header.append(head);
 const shortcuts=E('div','hnav-shortcuts');
-mainLinks.forEach(([label,dest])=>{let a=A(label,dest,'hnav-shortcut');if(dest==='funcoes/bestiario/index.html'||dest==='funcoes/deuses2/index.html')a.classList.add('hnav-featured');const target=url(dest).split('?')[0].split('#')[0];if(target===location.href.split('?')[0].split('#')[0]){a.setAttribute('aria-current','page');a.classList.add('active')}shortcuts.append(a)});header.append(shortcuts);
+mainLinks.forEach(([label,dest])=>{let a=A(label,dest,'hnav-shortcut');if(dest==='funcoes/bestiario.html'||dest==='funcoes/deuses.html')a.classList.add('hnav-featured');const target=url(dest).split('?')[0].split('#')[0];if(target===location.href.split('?')[0].split('#')[0]){a.setAttribute('aria-current','page');a.classList.add('active')}shortcuts.append(a)});header.append(shortcuts);
 const drawer=E('section','hnav-drawer');drawer.id='hnav-drawer';drawer.hidden=true;
 const intro=E('p','hnav-drawer-hint','Escolha uma categoria. Busca rápida: Ctrl + K.');
 drawer.append(intro);
 const container=E('div','hnav-groups');
-groups.forEach(group=>{const block=E('details','hnav-group');const summary=E('summary',null,group.icon+'  '+group.label);const links=E('div','hnav-group-links');group.items.forEach(i=>{const a=A(i[0],i[1]);if(i[1]==='funcoes/bestiario/index.html'||i[1]==='funcoes/deuses2/index.html')a.classList.add('hnav-featured-link');links.append(a)});block.append(summary,links);container.append(block)});drawer.append(container);header.append(drawer);
+groups.forEach(group=>{const block=E('details','hnav-group');const summary=E('summary',null,group.icon+'  '+group.label);const links=E('div','hnav-group-links');group.items.forEach(i=>{const a=A(i[0],i[1]);if(i[1]==='funcoes/bestiario.html'||i[1]==='funcoes/deuses.html')a.classList.add('hnav-featured-link');links.append(a)});block.append(summary,links);container.append(block)});drawer.append(container);header.append(drawer);
 const shade=E('div','hnav-search-shade');shade.id='hnav-search-shade';shade.hidden=true;shade.setAttribute('role','presentation');
 const searchBox=E('div','hnav-search-panel');searchBox.setAttribute('role','dialog');searchBox.setAttribute('aria-modal','true');searchBox.setAttribute('aria-label','Buscar páginas do Hurras');const searchHead=E('div','hnav-search-head'),input=E('input','hnav-search-input');
 input.type='search';input.id='hnav-global-search';input.placeholder='Digite: poções, armas, bestiário, classes...';input.setAttribute('aria-label','Pesquisar opções');const close=E('button','hnav-close','✕');close.type='button';close.setAttribute('aria-label','Fechar pesquisa');searchHead.append(input,close);const results=E('div','hnav-results');results.id='hnav-results';searchBox.append(searchHead,results);shade.append(searchBox);

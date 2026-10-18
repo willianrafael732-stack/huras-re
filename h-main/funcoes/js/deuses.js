@@ -7,7 +7,7 @@ const make=(name,txt,cls)=>{const x=document.createElement(name);if(txt!=null)x.
 const normalize=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 function card(g){
  const [tradition,name,domain,note,affinity,art]=g,article=make('article',null,'god-card');
- if(art){
+ if(art&&[].includes(art)){
   const imageLink=make('a');imageLink.href=(document.querySelector('meta[name="hurras-assets"]')?.content||'../assets/i/')+encodeURIComponent(art);
   imageLink.target='_blank';imageLink.rel='noopener';imageLink.title='Ampliar retrato de '+name;
   const image=make('img');image.src=imageLink.href;image.loading='lazy';image.decoding='async';image.alt='Arte de '+name;

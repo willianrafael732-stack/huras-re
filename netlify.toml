@@ -1,0 +1,3 @@
+[build]
+  publish = "h-main"
+  command = ""
