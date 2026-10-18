@@ -1,0 +1,348 @@
+{
+  "elements": [
+    {
+      "id": "fogo",
+      "name": "Fogo",
+      "icon": "🔥",
+      "color": "#ef8754"
+    },
+    {
+      "id": "agua",
+      "name": "Água / Gelo",
+      "icon": "❄",
+      "color": "#75c7ef"
+    },
+    {
+      "id": "vento",
+      "name": "Vento",
+      "icon": "🌪",
+      "color": "#b1e5cf"
+    },
+    {
+      "id": "terra",
+      "name": "Terra / Natureza",
+      "icon": "🌿",
+      "color": "#b8bd76"
+    },
+    {
+      "id": "raio",
+      "name": "Raio",
+      "icon": "ϟ",
+      "color": "#f3cf66"
+    },
+    {
+      "id": "veneno",
+      "name": "Veneno",
+      "icon": "☣",
+      "color": "#b8dd6c"
+    },
+    {
+      "id": "mental",
+      "name": "Mental",
+      "icon": "◈",
+      "color": "#c6a1ed"
+    },
+    {
+      "id": "sagrado",
+      "name": "Sagrado",
+      "icon": "✦",
+      "color": "#f3ddac"
+    },
+    {
+      "id": "sombra",
+      "name": "Sombra",
+      "icon": "☾",
+      "color": "#aa9fcb"
+    }
+  ],
+  "recipes": [
+    {
+      "elements": [
+        "fogo",
+        "agua"
+      ],
+      "name": "Vapor Escaldante",
+      "effect": "Uma nuvem quente ocupa uma pequena área e dificulta a visão. O mestre decide sua duração."
+    },
+    {
+      "elements": [
+        "fogo",
+        "vento"
+      ],
+      "name": "Vendaval de Brasas",
+      "effect": "Uma corrente de ar transporta brasas em uma direção escolhida."
+    },
+    {
+      "elements": [
+        "fogo",
+        "terra"
+      ],
+      "name": "Magma Vivo",
+      "effect": "Rocha aquecida forma uma barreira ou uma faixa de terreno incandescente."
+    },
+    {
+      "elements": [
+        "fogo",
+        "raio"
+      ],
+      "name": "Arco Incandescente",
+      "effect": "Uma descarga luminosa envolve a chama e atinge um alvo."
+    },
+    {
+      "elements": [
+        "fogo",
+        "veneno"
+      ],
+      "name": "Fumaça Tóxica",
+      "effect": "Uma fumaça irritante ocupa a área; sua propagação depende do vento."
+    },
+    {
+      "elements": [
+        "fogo",
+        "mental"
+      ],
+      "name": "Miragem Ardente",
+      "effect": "Uma imagem de chamas distrai ou intimida; o efeito mental exige o teste da mesa."
+    },
+    {
+      "elements": [
+        "fogo",
+        "sagrado"
+      ],
+      "name": "Chama Consagrada",
+      "effect": "Uma chama ritual ilumina e pode ser usada contra uma corrupção definida pelo mestre."
+    },
+    {
+      "elements": [
+        "fogo",
+        "sombra"
+      ],
+      "name": "Brasa do Crepúsculo",
+      "effect": "Chamas escuras marcam uma superfície ou envolvem um ataque."
+    },
+    {
+      "elements": [
+        "agua",
+        "vento"
+      ],
+      "name": "Névoa Errante",
+      "effect": "Uma névoa ou rajada de cristais de gelo acompanha a corrente de ar."
+    },
+    {
+      "elements": [
+        "agua",
+        "terra"
+      ],
+      "name": "Raízes do Pântano",
+      "effect": "Água e solo criam lama e raízes que dificultam a passagem."
+    },
+    {
+      "elements": [
+        "agua",
+        "raio"
+      ],
+      "name": "Corrente Condutora",
+      "effect": "A descarga percorre uma porção de água. Aliados na área também precisam ser considerados."
+    },
+    {
+      "elements": [
+        "agua",
+        "veneno"
+      ],
+      "name": "Maré Venenosa",
+      "effect": "Um líquido contaminado atinge a área escolhida; não concede dano contínuo automaticamente."
+    },
+    {
+      "elements": [
+        "agua",
+        "mental"
+      ],
+      "name": "Espelho das Memórias",
+      "effect": "Uma superfície líquida projeta uma lembrança ou imagem criada pelo conjurador."
+    },
+    {
+      "elements": [
+        "agua",
+        "sagrado"
+      ],
+      "name": "Fonte Consagrada",
+      "effect": "Água ritualizada serve a uma purificação ou proteção aprovada na mesa."
+    },
+    {
+      "elements": [
+        "agua",
+        "sombra"
+      ],
+      "name": "Névoa Sombria",
+      "effect": "Uma névoa escura encobre uma passagem ou a posição do conjurador."
+    },
+    {
+      "elements": [
+        "vento",
+        "terra"
+      ],
+      "name": "Tempestade de Espinhos",
+      "effect": "Folhas, poeira e pequenos espinhos acompanham uma rajada."
+    },
+    {
+      "elements": [
+        "vento",
+        "raio"
+      ],
+      "name": "Tempestade Elétrica",
+      "effect": "Uma corrente de ar guia uma descarga até o alvo escolhido."
+    },
+    {
+      "elements": [
+        "vento",
+        "veneno"
+      ],
+      "name": "Bruma Venenosa",
+      "effect": "Uma rajada desloca uma nuvem tóxica; o ambiente determina sua dispersão."
+    },
+    {
+      "elements": [
+        "vento",
+        "mental"
+      ],
+      "name": "Sussurro Distante",
+      "effect": "O vento carrega uma mensagem mental a um alvo permitido pelas regras da mesa."
+    },
+    {
+      "elements": [
+        "vento",
+        "sagrado"
+      ],
+      "name": "Sopro Guardião",
+      "effect": "Uma corrente de ar consagrada representa uma proteção temporária."
+    },
+    {
+      "elements": [
+        "vento",
+        "sombra"
+      ],
+      "name": "Passo da Penumbra",
+      "effect": "Uma cortina de ar e sombras ajuda a ocultar um deslocamento normal."
+    },
+    {
+      "elements": [
+        "terra",
+        "raio"
+      ],
+      "name": "Pedra Condutora",
+      "effect": "Uma pedra marcada conduz uma descarga a um ponto preparado."
+    },
+    {
+      "elements": [
+        "terra",
+        "veneno"
+      ],
+      "name": "Jardim de Toxinas",
+      "effect": "Raízes ou espinhos carregam veneno em uma área delimitada."
+    },
+    {
+      "elements": [
+        "terra",
+        "mental"
+      ],
+      "name": "Memória da Pedra",
+      "effect": "O conjurador tenta perceber vestígios associados a uma pedra ou raiz; o mestre define a informação."
+    },
+    {
+      "elements": [
+        "terra",
+        "sagrado"
+      ],
+      "name": "Bosque Consagrado",
+      "effect": "Uma área natural recebe uma marca de proteção ritual."
+    },
+    {
+      "elements": [
+        "terra",
+        "sombra"
+      ],
+      "name": "Raízes da Penumbra",
+      "effect": "Raízes escuras se camuflam no terreno e dificultam a passagem."
+    },
+    {
+      "elements": [
+        "raio",
+        "veneno"
+      ],
+      "name": "Picada Elétrica",
+      "effect": "Um ataque reúne descarga e toxina; efeitos de paralisia dependem de aprovação e teste."
+    },
+    {
+      "elements": [
+        "raio",
+        "mental"
+      ],
+      "name": "Impulso Neural",
+      "effect": "Um pulso mágico provoca distração ou transmite um sinal mental."
+    },
+    {
+      "elements": [
+        "raio",
+        "sagrado"
+      ],
+      "name": "Julgamento do Trovão",
+      "effect": "Uma descarga consagrada atinge o alvo definido pelo conjurador."
+    },
+    {
+      "elements": [
+        "raio",
+        "sombra"
+      ],
+      "name": "Relâmpago Umbral",
+      "effect": "Uma descarga escura atravessa a penumbra até um alvo visível."
+    },
+    {
+      "elements": [
+        "veneno",
+        "mental"
+      ],
+      "name": "Delírio Tóxico",
+      "effect": "Uma toxina provoca sensações ilusórias; resistência e duração seguem a decisão do mestre."
+    },
+    {
+      "elements": [
+        "veneno",
+        "sagrado"
+      ],
+      "name": "Antídoto Ritual",
+      "effect": "Uma preparação ritual tenta neutralizar uma toxina conhecida; não garante cura universal."
+    },
+    {
+      "elements": [
+        "veneno",
+        "sombra"
+      ],
+      "name": "Miasma do Breu",
+      "effect": "Uma névoa escura carrega toxinas e denuncia o perigo pelo odor."
+    },
+    {
+      "elements": [
+        "mental",
+        "sagrado"
+      ],
+      "name": "Clareza Interior",
+      "effect": "Uma bênção ajuda a enfrentar confusão ou medo por meio de um teste apropriado."
+    },
+    {
+      "elements": [
+        "mental",
+        "sombra"
+      ],
+      "name": "Pesadelo Desperto",
+      "effect": "Uma imagem sombria tenta assustar ou distrair um alvo."
+    },
+    {
+      "elements": [
+        "sagrado",
+        "sombra"
+      ],
+      "name": "Equilíbrio do Eclipse",
+      "effect": "Luz ritual e sombra formam um selo de equilíbrio, sem anular automaticamente outros poderes."
+    }
+  ]
+}
