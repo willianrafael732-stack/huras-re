@@ -91,7 +91,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;ba
 <link rel="stylesheet" href="../souls-theme.css">
 <link rel="stylesheet" href="../hurras-visual.css" media="screen" data-hurras-visual="v11">
 <link rel="icon" type="image/svg+xml" href="../hurras-icon.svg" data-hurras-visual="v11">
-<link rel="stylesheet" href="css/ficha-classica-theme.css"><link rel="stylesheet" href="css/hurras-tools.css"><script defer src="../hurras-nav.js"></script></head>
+<link rel="stylesheet" href="css/ficha-classica-theme.css"><link rel="stylesheet" href="css/hurras-tools.css"><script defer src="../hurras-nav.js"></script><style>.forge-preview{font:15px/1.7 Arial,sans-serif;background:#201b14;padding:16px;border:1px solid #806740;border-radius:8px}.forge-preview p{margin:8px 0}.forge-preview ul{padding-left:20px}.sheet-page.equipment-appendix{height:auto;min-height:296mm;max-height:none;overflow:visible;font:14px/1.6 Arial,sans-serif}.equipment-appendix article{padding:16px 0;border-bottom:1px solid #806740;break-inside:avoid}.equipment-appendix li{margin:10px 0}@media print{.sheet-page.equipment-appendix{height:auto!important;min-height:296mm!important;max-height:none!important;overflow:visible!important;break-inside:auto!important}}</style></head>
 <body class="hurras-classic">
 <nav class="navbar"><div class="container-nav"><div class="nav-links"><a href="inicio.html">Player</a><a class="active" href="clan.html">Minha Ficha</a><a href="sistema-completo.html">Sistema</a><a href="arquivo-npcs.html">NPCs</a><a href="catalogo.html">Biblioteca</a>
 <a href="../index.html">Player e Mestre</a></div></div></nav>
@@ -136,8 +136,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;ba
       <section class="form-group">
         <div class="form-group-title"><span>03</span><div><strong>Equipamento</strong><small>Armas permitidas pela classe e proteção</small></div></div>
         <div class="group-fields">
-          <div class="field wide"><label>Arma primária</label><select id="weapon1"></select></div>
-          <div class="field wide"><label>Arma secundária</label><select id="weapon2"></select></div>
+          <div class="field wide"><label>Arma primária</label><select id="weapon1"></select></div><div class="field"><label for="weaponMaterial1">Material · arma 1</label><select id="weaponMaterial1"></select></div><div class="field"><label for="weaponOre1">Minério · arma 1</label><select id="weaponOre1"></select></div><div class="field"><label for="weaponElement1">Elemento primordial · arma 1</label><select id="weaponElement1"><option>Fogo</option><option>Água</option><option>Vento</option><option>Terra</option><option>Raio</option><option>Veneno</option><option>Mental</option><option>Sagrado</option><option>Sombrio</option></select></div><div class="field wide forge-preview" id="forgePreview1" aria-live="polite"></div>
+          <div class="field wide"><label>Arma secundária</label><select id="weapon2"></select></div><div class="field"><label for="weaponMaterial2">Material · arma 2</label><select id="weaponMaterial2"></select></div><div class="field"><label for="weaponOre2">Minério · arma 2</label><select id="weaponOre2"></select></div><div class="field"><label for="weaponElement2">Elemento primordial · arma 2</label><select id="weaponElement2"><option>Fogo</option><option>Água</option><option>Vento</option><option>Terra</option><option>Raio</option><option>Veneno</option><option>Mental</option><option>Sagrado</option><option>Sombrio</option></select></div><div class="field wide forge-preview" id="forgePreview2" aria-live="polite"></div>
           <div class="field"><label>Armadura</label><select id="armor"></select></div>
           <div class="field"><label>Escudo</label><select id="shield"></select></div>
           <div class="field wide"><label>Moedas</label><input id="coins" placeholder="bronze / prata / ouro"></div>

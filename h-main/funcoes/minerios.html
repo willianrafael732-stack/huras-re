@@ -2067,7 +2067,7 @@
     </section>
 
 
-</main>
+<section id="forgeReference" aria-label="Dano e efeitos dos materiais e minérios"></section></main>
 
 
 <!-- =========================
@@ -2171,5 +2171,7 @@
 
 </script>
 
-<script defer src="../portal/account-session.js"></script></body>
+<script defer src="../portal/account-session.js"></script><script src="js/rpg-system.js"></script><script>
+(function(){const D=window.HURRAS_RPG,host=document.getElementById('forgeReference');host.style.cssText='max-width:1100px;margin:32px auto;padding:24px;color:#f1e5d1;background:#17130e;font:16px/1.7 Arial,sans-serif';const h=document.createElement('h2');h.textContent='Dano próprio e efeitos na forja';host.append(h);for(const [title,rows] of [['Materiais de estrutura',D.weaponMaterials],['Minérios de infusão',D.weaponOres]]){const heading=document.createElement('h3');heading.textContent=title;host.append(heading);for(const x of Object.values(rows)){const a=document.createElement('article');a.style.cssText='padding:16px 0;border-bottom:1px solid #786144';const name=document.createElement('strong');name.textContent=x.name;const p=document.createElement('p');p.textContent='Dano adicional: +'+x.damageBonus+' '+(x.damageType||'físico')+(x.condition?' '+x.condition:'')+'. '+x.effect;a.append(name,p);host.append(a)}}})();
+</script></body>
 </html>

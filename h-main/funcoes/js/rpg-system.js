@@ -2508,3 +2508,80 @@ window.HURRAS_RPG = {
     allowedClasses.forEach(cn => { const c=D.classes[cn]; if(c){c.weapons=c.weapons||[];if(!c.weapons.includes(name))c.weapons.push(name);} });
   });
 })();
+
+// Arsenal ampliado: perfis individuais de combate.
+(function () {
+  const D = window.HURRAS_RPG;
+  const rows = [
+    ['Tridente','Médio alcance / 2 Mãos','Força','3d10','+1 Bloqueio','-1 Esquiva',{Bloqueio:1,Esquiva:-1},['Guerreiro','Lanceiro'],'Haste de três pontas para estocadas e controle de armas.'],
+    ['Bordão','2 Mãos','Força ou Destreza','2d10','+1 Bloqueio','-1 Crítico',{Bloqueio:1,Critico:-1},['Monge','Druida','Guerreiro'],'Bastão longo de madeira reforçada, voltado a golpes e aparos.'],
+    ['Mangual de Uma Mão','1 Mão','Força','2d10','+1 Ignora Armadura','-1 Bloqueio',{Bloqueio:-1},['Guerreiro','Clérigo de Guerra'],'Cabeça de impacto presa por corrente curta ao cabo.'],
+    ['Espada Bastarda','2 Mãos','Força','3d10','+1 Bloqueio','-1 Reação',{Bloqueio:1,Reacao:-1},['Guerreiro','Antipaladino / Algoz'],'Lâmina de mão e meia; este perfil usa empunhadura de duas mãos.'],
+    ['Estoque','1 Mão','Destreza','2d10','+1 Ignora Armadura','-1 Bloqueio',{Bloqueio:-1},['Guerreiro','Ladino'],'Espada rígida especializada em estocadas contra frestas.'],
+    ['Falchion','1 Mão','Força ou Destreza','2d10','+1 Crítico','-1 Bloqueio',{Critico:1,Bloqueio:-1},['Guerreiro','Ladino'],'Lâmina de um só gume com ponta pesada para cortes curtos.'],
+    ['Machadinha de Arremesso','À Distância','Destreza','2d10','+1 Crítico','É preciso recuperar a arma após o arremesso',{Critico:1},['Guerreiro','Arqueiro','Ladino'],'Machado compacto equilibrado para lançamento; não retorna sozinho.'],
+    ['Azagaia','À Distância','Força ou Destreza','2d10','+1 Alcance','É preciso recuperar a arma após o arremesso',{},['Guerreiro','Lanceiro','Arqueiro'],'Lança leve própria para lançamento.'],
+    ['Shuriken','À Distância','Destreza','1d10','+1 Furtividade','-1 Ignora Armadura',{Furtividade:1},['Ninja','Ladino'],'Estrela metálica; o dano indicado corresponde a uma unidade.'],
+    ['Kunai','1 Mão','Destreza','1d10','+1 Briga','-1 Bloqueio',{Briga:1,Bloqueio:-1},['Ninja','Ladino'],'Lâmina curta robusta usada em combate próximo.'],
+    ['Sai','1 Mão','Destreza','1d10','+1 Bloqueio','-1 Crítico',{Bloqueio:1,Critico:-1},['Monge','Ninja'],'Arma de ponta central e guardas laterais para prender lâminas.'],
+    ['Tekko','1 Mão','Força','1d10','+1 Briga','Não permite empunhar outra arma na mesma mão',{Briga:1},['Monge','Guerreiro'],'Reforço metálico de punho para impacto direto.'],
+    ['Bastão de Três Seções','2 Mãos','Destreza','3d10','+1 Alcance','-2 Bloqueio',{Bloqueio:-2},['Monge','Ninja'],'Três segmentos articulados; exige espaço e treinamento.'],
+    ['Naginata','Médio alcance / 2 Mãos','Destreza','3d10','+1 Alcance, +1 Bloqueio','-2 Reação',{Bloqueio:1,Reacao:-2},['Lanceiro','Monge','Guerreiro'],'Haste longa com lâmina curva para cortes e estocadas.'],
+    ['Guisarme','Médio alcance / 2 Mãos','Força','3d10','+1 Alcance, +1 Desarme','-2 Esquiva',{Esquiva:-2},['Lanceiro','Guerreiro'],'Arma de haste com gancho; desarmar exige teste oposto, não é automático.'],
+    ['Martelo de Bico','2 Mãos','Força','3d10','+2 Ignora Armadura','-2 Reação',{Reacao:-2},['Guerreiro','Clérigo de Guerra'],'Martelo com ponta estreita para concentrar o impacto.'],
+    ['Boleadeiras','À Distância','Destreza','1d10','Pode enredar: teste oposto de Destreza; alvo pode gastar ação para escapar','É preciso recolher antes de reutilizar',{},['Domador','Arqueiro','Ladino'],'Cordas com pesos para prender membros; contenção exige teste.'],
+    ['Dardo de Corda','Médio alcance / 2 Mãos','Destreza','2d10','+1 Alcance, +1 Desarme','-2 Bloqueio',{Bloqueio:-2},['Monge','Ninja'],'Ponta metálica presa a corda longa; exige teste oposto para desarmar.'],
+    ['Besta de Pulso','À Distância','Destreza','1d10','+1 Furtividade','Recarga consome uma ação',{Furtividade:1},['Tecnomancer','Ladino','Ninja'],'Besta compacta de um disparo; não concede ataques adicionais.'],
+    ['Lança de Caça','Médio alcance / 2 Mãos','Força','3d10','+1 Investida','-1 Bloqueio',{Investida:1,Bloqueio:-1},['Domador','Lanceiro','Guerreiro'],'Lança robusta com travessa para caça de criaturas grandes.']
+  ];
+  rows.forEach(([name,category,attribute,baseDamage,bonus,penalty,mods,allowedClasses,lore]) => {
+    if(D.weapons[name]) throw new Error('Arma duplicada: '+name);
+    D.weapons[name]={name,category,attribute,baseDamage,damage:baseDamage,damageBonus:0,damageType:'físico',bonus,penalty,mods,allowedClasses,lore,rarity:'Comum',requirement:'Treinamento com a arma',source:'armas.html'};
+    allowedClasses.forEach(cn=>{const c=D.classes[cn];if(c){c.weapons=c.weapons||[];if(!c.weapons.includes(name))c.weapons.push(name);}});
+  });
+})();
+
+// Raridade define o número de técnicas extras; dano e bônus permanecem separados.
+(function () {
+  const D=window.HURRAS_RPG;
+  D.weaponRarities=['Comum','Incomum','Rara','Épica','Lendária'];
+  const extraRarities={Nunchaku:'Incomum',Tonfa:'Comum',Kusarigama:'Rara',Chakram:'Incomum','Leque de Guerra':'Incomum','Corrente com Peso':'Incomum','Lâmina de Punho':'Incomum','Rede de Combate':'Comum',Tridente:'Incomum',Bordão:'Comum','Mangual de Uma Mão':'Incomum','Espada Bastarda':'Incomum',Estoque:'Incomum',Falchion:'Comum','Machadinha de Arremesso':'Comum',Azagaia:'Comum',Shuriken:'Comum',Kunai:'Comum',Sai:'Incomum',Tekko:'Comum','Bastão de Três Seções':'Rara',Naginata:'Rara',Guisarme:'Incomum','Martelo de Bico':'Incomum',Boleadeiras:'Incomum','Dardo de Corda':'Rara','Besta de Pulso':'Rara','Lança de Caça':'Comum'};
+  Object.values(D.weapons).forEach(w=>{
+    w.rarity=extraRarities[w.name]||w.rarity||'Comum';
+    w.rarityRank=D.weaponRarities.indexOf(w.rarity);
+    const ranged=/Distância/.test(w.category), magic=/Mágica/.test(w.category), music=/Instrumental/.test(w.category);
+    const first=music?{name:'Nota Protetora',effect:'Após usar o instrumento, um aliado recebe +1 Bloqueio contra o próximo ataque até seu próximo turno.'}:magic?{name:'Pulso Arcano',effect:'Após acertar com esta arma, acrescente +1d10 mágico ao dano desse ataque.'}:ranged?{name:'Mira Firme',effect:'Antes de atacar, receba +1 dado no teste deste disparo ou arremesso.'}:{name:'Golpe Preciso',effect:'Antes de atacar, receba +1 dado no teste de ataque com esta arma.'};
+    const second=music?{name:'Ritmo Revigorante',effect:'Um aliado recupera 2 Mana; não acumula consigo mesmo no mesmo turno.'}:magic?{name:'Eco Místico',effect:'Após acertar, ignore 2 pontos de resistência mágica nesse ataque, até o mínimo de zero.'}:ranged?{name:'Impacto Debilitante',effect:'Após acertar, o alvo sofre -1 dado de Reação até o fim do próximo turno dele; não acumula consigo mesmo.'}:{name:'Quebra-Guarda',effect:'Após acertar, o alvo sofre -1 Bloqueio até o fim do próximo turno dele; não acumula consigo mesmo.'};
+    const third={name:music?'Acorde Heroico':'Golpe Excepcional',effect:music?'Dois aliados recebem +1 dado em seu próximo teste de ataque até seu próximo turno; não acumula consigo mesmo.':'Após acertar com esta arma, acrescente +2d10 do tipo de dano da arma apenas a esse ataque.'};
+    const fourth={name:music?'Canção da Lenda':'Despertar da Relíquia',effect:music?'Um aliado consciente recupera 10 Vitalidade e 5 Mana, sem ultrapassar os máximos.':'Após acertar com esta arma, acrescente +3d10 do tipo de dano da arma apenas a esse ataque.'};
+    w.abilities=[first,second,third,fourth].slice(0,w.rarityRank).map((a,i)=>({...a,cost:[0,2,4,6][i]+' Mana',limit:i===3?'1 vez por sessão':'1 vez por combate'}));
+    w.abilityText=w.abilities.map(a=>a.name+': '+a.effect+' Custo: '+a.cost+'. Limite: '+a.limit+'.').join(' | ')||'Sem habilidade extra de raridade.';
+  });
+  D.weaponAbilityRule='Ative no máximo uma habilidade extra por ataque ou ação. Pague a Mana e respeite o limite indicado; habilidades não são ativadas nem descontadas automaticamente. Comum: 0, Incomum: 1, Rara: 2, Épica: 3, Lendária: 4 habilidades extras. O dano próprio independe dessas ativações.';
+})();
+
+// Materiais estruturais e minérios de infusão têm escolhas independentes.
+(function () {
+ const D=window.HURRAS_RPG;
+ D.weaponMaterials={
+  'Padrão':{name:'Padrão',damageBonus:0,effect:'Construção original da arma; não altera o dano.'},
+  'Madeira Reforçada':{name:'Madeira Reforçada',damageBonus:0,effect:'Estrutura leve; não conduz eletricidade comum. Revestimento, cabo ou corpo, conforme a arma.'},
+  'Osso':{name:'Osso',damageBonus:0,effect:'Estrutura orgânica; pode receber inscrições e infusões sem bônus automático.'},
+  'Ferro':{name:'Ferro',damageBonus:0,effect:'Metal de referência; dano próprio da arma sem acréscimo.'},
+  'Aço Temperado':{name:'Aço Temperado',damageBonus:1,effect:'Acrescenta 1 dano físico por acerto; valor já incluído no total exibido.'},
+  'Obsidiana':{name:'Obsidiana',damageBonus:2,effect:'Acrescenta 2 dano físico; perde este bônus após bloquear um ataque, até ser reparada. Controle a condição na mesa.'},
+  'Prata':{name:'Prata',damageBonus:0,effect:'Permite explorar fraquezas à prata descritas na ficha do alvo; não concede dano extra universal.'}
+ };
+ D.weaponOres={"Ferro Negro": {"name": "Ferro Negro", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "+1 Durabilidade da arma."}, "Aço Rubro": {"name": "Aço Rubro", "damageBonus": 1, "damageType": "Fogo", "condition": "", "effect": "+1 dano de Fogo."}, "Minério Gélido": {"name": "Minério Gélido", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "Ataques aplicam Lentidão por 1 turno. Lentidão reduz o deslocamento pela metade; não acumula consigo mesma."}, "Minério Tempestuoso": {"name": "Minério Tempestuoso", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "+1 Reação em ataques realizados com a arma."}, "Minério Sombrio": {"name": "Minério Sombrio", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "+2 para detectar criaturas ocultas ou invisíveis."}, "Minério Solar": {"name": "Minério Solar", "damageBonus": 2, "damageType": "Sagrado", "condition": "contra criaturas das Sombras", "effect": "+2 dano contra criaturas das Sombras."}, "Minério Astral": {"name": "Minério Astral", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "Permite atingir criaturas etéreas e parcialmente incorpóreas."}, "Minério Infernal": {"name": "Minério Infernal", "damageBonus": 2, "damageType": "Fogo", "condition": "", "effect": "+2 dano de Fogo e pode incendiar o alvo. Incendiar exige teste oposto de Vigor; em falha, causa 1 Fogo no próximo turno e termina."}, "Minério Profano": {"name": "Minério Profano", "damageBonus": 2, "damageType": "Sombrio", "condition": "contra criaturas Sagradas", "effect": "+2 dano contra criaturas Sagradas."}, "Cristal de Mana": {"name": "Cristal de Mana", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "+1 Poder Mágico para armas mágicas."}, "Minério de Sangue": {"name": "Minério de Sangue", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "Ao causar um crítico, recupera 1 Vitalidade."}, "Minério do Vazio": {"name": "Minério do Vazio", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "Ignora 2 pontos de Resistência Física ou Mágica."}, "Minério Celestial": {"name": "Minério Celestial", "damageBonus": 2, "damageType": "Sagrado", "condition": "contra criaturas Profanas", "effect": "+2 dano contra criaturas Profanas e resistência à corrupção."}, "Minério da Lua": {"name": "Minério da Lua", "damageBonus": 3, "damageType": "físico", "condition": "durante a noite", "effect": "+3 dano durante a noite."}, "Minério Primordial": {"name": "Minério Primordial", "damageBonus": 0, "damageType": "físico", "condition": "", "effect": "Escolha um elemento para a arma."}};
+ D.forgeWeapon=function(name,materialName='Padrão',oreName='',element='Fogo'){
+  const w=D.weapons[name];if(!w)return null;
+  const material=D.weaponMaterials[materialName]||D.weaponMaterials['Padrão'];
+  const ore=D.weaponOres[oreName];
+  const flat=(w.damageBonus||0)+material.damageBonus+(ore&&!ore.condition?ore.damageBonus:0);
+  const conditional=ore?.condition?(' + '+ore.damageBonus+' '+ore.damageType+' '+ore.condition):'';
+  const elemental=ore?.damageBonus&&!ore.condition?' (inclui '+ore.damageBonus+' '+ore.damageType+' do minério)':'';
+  const materialText=material.name+': +'+material.damageBonus+' dano físico. '+material.effect;
+  const oreText=ore?ore.name+': +'+ore.damageBonus+' '+ore.damageType+(ore.condition?' '+ore.condition:'')+'. '+ore.effect+(ore.name==='Minério Primordial'?' Elemento escolhido: '+element+'.':''):'Sem minério: +0 dano; sem efeito extra.';
+  return {...w,materialName:material.name,oreName:ore?.name||'',materialText,oreText,damage:w.baseDamage+(flat?' + '+flat:'')+conditional+elemental,damageBreakdown:'Arma: '+w.baseDamage+' '+w.damageType+'; bônus da arma: +'+(w.damageBonus||0)+'; material: +'+material.damageBonus+' físico; minério: '+(ore?'+'+ore.damageBonus+' '+ore.damageType+(ore.condition?' '+ore.condition:''):'0')+'.',forgeNote:'Uma base e uma infusão por arma. Dano do minério respeita o tipo e a condição. Efeitos e desgaste são controlados na mesa; não são aplicados automaticamente.'};
+ };
+})();
