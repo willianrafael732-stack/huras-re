@@ -44,3 +44,9 @@ Personalização local de cores, fontes, espaçamento, imagens, textos, menus, c
 - Até oito presenças simultâneas são previstas. STUN público da Cloudflare; sem TURN configurado, certas redes móveis/corporativas podem impedir conexão. `window.HurrasVoiceIceServers` pode receber servidores TURN com credenciais temporárias fornecidas por backend próprio. Nunca inclua segredo TURN permanente no cliente. Arquivos de áudio continuam disponíveis como alternativa.
 - Migração aplicada: `database/hurras-play-session.sql`; regras do servidor em `database/hurras-arsenal-seed.sql`. As tabelas do quiz não são alteradas.
 - Verificado: permissões mestre/jogador/terceiro, convite, sinalização privada e dano no banco em transação com rollback; rascunho de arma/material/minério reaberto no navegador. Voz entre dois dispositivos e login real completo não foram testados nesta execução.
+
+## Cofre exclusivo e consulta simples do bestiário
+
+A política `hf_sheets_read` retorna somente registros de `owner_id = auth.uid()`, inclusive para quem é mestre em outra mesa. O mestre consulta fichas explicitamente autorizadas somente por `hf_room_sheets(room_id)`, dentro da mesa; os outros jogadores não leem a ficha nem a lista de autorizações de terceiros. Login Google e login por e-mail usam o identificador autenticado do Supabase. Não há migração automática de fichas de visitante para outra conta. Teste reproduzível: `tests/private-vault-rollback.sql`, que termina em rollback.
+
+O bestiário principal lê as 123 fichas de `funcoes/dados/bestiario-original.txt`: vida/mana e até duas técnicas em destaque; atributos, resistências e texto integral permanecem disponíveis. Não são inferidos valores de dano quando o texto original não os informa. Os números foram conferidos com o teste `tests/bestiary-original.cjs` e pela busca de Albatroz Colossal no navegador.
