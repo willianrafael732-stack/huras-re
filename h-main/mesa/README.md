@@ -32,3 +32,15 @@ Dependências externas pendentes: ativar Google no Supabase com cliente OAuth, a
 Personalização local de cores, fontes, espaçamento, imagens, textos, menus, chat e ficha. O Mestre do site pode aplicar a aparência para todos. A ativação exige conta com e-mail confirmado e código aleatório de uso único, protegido por hash no schema privado. Esse acesso não abre conversas privadas de outros usuários.
 
 `portal/teste-mestre.html` é uma simulação local de conversa, dados, fichas e controles de mestre, sem credenciais compartilhadas ou mensagens reais.
+
+## Sessão e voz ao vivo — arsenal v2
+
+- `/mesa/` concentra login, criação/entrada por código ou link, estado da sessão, chamada de voz, conversa, dados, fichas e participantes.
+- O mestre inicia, pausa, retoma e encerra a sessão; a autorização é verificada no banco. Convites continuam com expiração de sete dias e podem ser renovados.
+- O jogador salva sua ficha online e usa **Fichas da mesa → Adicionar minha ficha à mesa**. O mestre pode ler e ajustar vida/mana das fichas compartilhadas, sem assumir sua propriedade.
+- **Dados → Dano da arma após acerto** lê a ficha online e as regras do servidor, separando dados da arma, bônus da arma, material e minério. Condições de noite/alvo são explicitadas no registro. Resistências e habilidades especiais seguem resolução manual; não há desconto automático de Mana por técnicas.
+- O arsenal v2 reduz os picos: armas leves comuns usam 1d10, duas mãos comuns 2d10, bônus explícito de dano fica limitado a +2 e armas lendárias chegam a 4d10. Simulação de referência com 50 PV sem defesa: espada 8,20 acertos; montante 4,36; marreta lendária 2,80. Isso é calibração numérica, não substitui teste de mesa.
+- A voz usa WebRTC de áudio e sinalização autenticada com RLS (`hf_voice_presence`, `hf_voice_signals`). Microfone somente por clique, com silenciar/sair; sair da conta, trocar de mesa, perder acesso ou encerrar a sessão interrompe o áudio. A presença expira após 45 segundos sem atualização. SDP/ICE temporários não são gravações de voz.
+- Até oito presenças simultâneas são previstas. STUN público da Cloudflare; sem TURN configurado, certas redes móveis/corporativas podem impedir conexão. `window.HurrasVoiceIceServers` pode receber servidores TURN com credenciais temporárias fornecidas por backend próprio. Nunca inclua segredo TURN permanente no cliente. Arquivos de áudio continuam disponíveis como alternativa.
+- Migração aplicada: `database/hurras-play-session.sql`; regras do servidor em `database/hurras-arsenal-seed.sql`. As tabelas do quiz não são alteradas.
+- Verificado: permissões mestre/jogador/terceiro, convite, sinalização privada e dano no banco em transação com rollback; rascunho de arma/material/minério reaberto no navegador. Voz entre dois dispositivos e login real completo não foram testados nesta execução.

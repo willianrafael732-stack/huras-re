@@ -11,7 +11,7 @@ const url=(path)=>new URL(path,origin).href;
 const path=decodeURIComponent(location.pathname).toLowerCase();
 const groups=[
 {label:'Começar',icon:'⌂',items:[
-['Início','index.html','Portal Player e Mestre'],['Meus dados','conta-dados.html','Preferências, notas, favoritos e misturas online'],['Mesa • Login e chat','mesa/index.html','Mestre, jogadores, d10, PDF e áudio'],['Catálogo geral','funcoes/catalogo.html'],['Catálogo especial','funcoes/catalogo.html','Adversários e eventos do Ragnarök'],
+['Início','index.html','Portal Player e Mestre'],['Meus dados','conta-dados.html','Preferências, notas, favoritos e misturas online'],['Entrar na mesa','mesa/index.html','Sessão, mestre, convites, fichas, dados e voz ao vivo'],['Catálogo geral','funcoes/catalogo.html'],['Catálogo especial','funcoes/catalogo.html','Adversários e eventos do Ragnarök'],
 ['Minhas fichas','funcoes/criacao-de-ficha.html','Retomar personagens clássicos'],
 ['Nova ficha clássica','funcoes/clan.html?new=1','Forja original'],
 ,

@@ -14,7 +14,7 @@ function switchMode(pdf){
  preview.setAttribute('aria-pressed',String(pdf));
  edit.classList.toggle('classic-mode-selected',!pdf);
  preview.classList.toggle('classic-mode-selected',pdf);
- pages.setAttribute('aria-label',pdf?'Pré-visualização para PDF: duas páginas A4 da ficha Hurras Fantasy':'Ficha Hurras Fantasy editável com duas páginas A4');
+ pages.setAttribute('aria-label',pdf?'Pré-visualização para PDF: páginas A4 e anexo de equipamento da ficha Hurras Fantasy':'Ficha Hurras Fantasy editável com páginas A4 e anexo de equipamento');
  if(pdf)window.HurrasFichaStorage?.saveDraft?.();
 }
 edit.addEventListener('click',()=>switchMode(false));

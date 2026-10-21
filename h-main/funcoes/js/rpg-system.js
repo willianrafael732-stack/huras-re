@@ -2585,3 +2585,22 @@ window.HURRAS_RPG = {
   return {...w,materialName:material.name,oreName:ore?.name||'',materialText,oreText,damage:w.baseDamage+(flat?' + '+flat:'')+conditional+elemental,damageBreakdown:'Arma: '+w.baseDamage+' '+w.damageType+'; bônus da arma: +'+(w.damageBonus||0)+'; material: +'+material.damageBonus+' físico; minério: '+(ore?'+'+ore.damageBonus+' '+ore.damageType+(ore.condition?' '+ore.condition:''):'0')+'.',forgeNote:'Uma base e uma infusão por arma. Dano do minério respeita o tipo e a condição. Efeitos e desgaste são controlados na mesa; não são aplicados automaticamente.'};
  };
 })();
+
+// Equilíbrio v2: raridade não multiplica o dano indefinidamente.
+(function(){
+ const D=window.HURRAS_RPG;
+ Object.values(D.weapons).forEach(w=>{
+  const heavy=/2 Mãos/.test(w.category),rank=w.rarityRank||0;
+  const light=/Adaga|Punhal|Kukri|Shuriken|Kunai|Sai|Tekko|Dardos|Dardo de Corda|Besta de Pulso|Flauta|Varinha/.test(w.name);
+  const base=light?1:heavy?2:1;
+  const tier=rank>=4?2:rank>=2?1:0;
+  w.baseDamage=Math.min(5,base+tier)+'d10';
+  w.damageBonus=Math.min(2,w.damageBonus||0);
+  w.bonus=w.bonus.replace(/\+\d+ Dano\b/gi,'+'+w.damageBonus+' Dano');
+  w.damage=w.baseDamage+(w.damageBonus?' + '+w.damageBonus:'');
+  // Dano explosivo não se soma em cadeia: uma ativação por ataque.
+  for(const a of w.abilities){a.effect=a.effect.replace(/\+([23])d10/g,(_,n)=>'+'+(Number(n)-1)+'d10');}
+  w.abilityText=w.abilities.map(a=>a.name+': '+a.effect+' Custo: '+a.cost+'. Limite: '+a.limit+'.').join(' | ')||'Sem habilidade extra de raridade.';
+ });
+ D.balanceVersion='arsenal-v2';
+})();
