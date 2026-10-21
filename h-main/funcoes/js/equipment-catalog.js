@@ -4,7 +4,7 @@
  const D=window.HURRAS_RPG;if(!D||!D.weapons||!D.armors||!D.shields)return;
  const list=(type)=>{
    const raw=type==='armors'?D.armors:type==='shields'?D.shields:D.weapons;
-   return Object.entries(raw).map(([id,item])=>({id,name:item.name||id,category:item.category||(type==='armors'?'Armadura':type==='shields'?'Escudo':'Arma'),bonus:item.bonus||'',penalty:item.penalty||'',allowedClasses:item.allowedClasses||[]}))
+   return Object.entries(raw).map(([id,item])=>({id,name:item.name||id,category:item.category||(type==='armors'?'Armadura':type==='shields'?'Escudo':'Arma'),baseDamage:item.baseDamage||'',damage:item.damage||'',damageType:item.damageType||'',bonus:item.bonus||'',penalty:item.penalty||'',allowedClasses:item.allowedClasses||[]}))
  };
  const slotGroup=i=>i===4?'armors':i===6?'shields':'weapons';
  const group=(slot)=>{

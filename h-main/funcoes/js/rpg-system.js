@@ -2446,3 +2446,65 @@ window.HURRAS_RPG = {
     const c=D.classes[cn]; if(c){ c.shields=c.shields||[]; if(!c.shields.includes(s.name)) c.shields.push(s.name); }
   }));
 })();
+
+// Dano próprio por arma: rolagem independente dos atributos do portador.
+(function () {
+  const D = window.HURRAS_RPG;
+  const profiles = {
+    'Espada': '2d10', 'Adaga': '1d10', 'Montante': '4d10',
+    'Martelo': '4d10', 'Machado': '4d10', 'Lança — 1 Mão': '2d10',
+    'Chicote': '1d10', 'Foice': '2d10', 'Lança — 2 Mãos': '3d10',
+    'Mongual': '3d10', 'Foice — 2 Mãos': '3d10', 'Arco e Flechas': '2d10',
+    'Varinha': '1d10', 'Cajado': '2d10', 'Grimório': '1d10', 'Orb': '1d10',
+    'Cordas': '1d10', 'Sopro': '1d10', 'Percussão': '2d10',
+    'Espada Longa do Exilado': '3d10', 'Espada Curva da Cinza': '2d10',
+    'Rapieira do Vigia': '2d10', 'Sabre da Lua Morta': '3d10',
+    'Machado de Mão do Carrasco': '3d10', 'Maça do Peregrino': '2d10',
+    'Picareta de Ferro Negro': '3d10', 'Kukri do Rato Cinzento': '1d10',
+    'Punhal do Vazio': '2d10', 'Espada Rúnica de Kharn': '3d10',
+    'Ultra-Montante de Pedra': '5d10', 'Grande Machado do Abismo': '5d10',
+    'Martelo Colossal do Sino': '5d10', 'Alabarda do Guardião': '3d10',
+    'Glaive da Catedral': '3d10', 'Foice do Ceifador Pálido': '4d10',
+    'Espadão Profanado': '4d10', 'Marreta do Gigante Caído': '6d10',
+    'Lança do Dragão Morto': '4d10', 'Machado Crescente de Ymir': '4d10',
+    'Corrente do Penitente': '3d10', 'Arco Longo do Caçador Cinzento': '3d10',
+    'Arco Composto de Osso': '3d10', 'Besta Leve': '2d10',
+    'Besta Pesada do Cerco': '4d10', 'Besta de Repetição': '2d10',
+    'Arco Negro do Eclipse': '4d10', 'Funda Rúnica': '2d10',
+    'Lançador de Dardos Envenenados': '1d10', 'Cajado de Cinzas': '3d10',
+    'Catalisador Abissal': '4d10', 'Sino Sagrado do Peregrino': '3d10',
+    'Talismã de Ossos': '2d10', 'Grimório Profanado': '4d10',
+    'Orbe do Eclipse': '4d10', 'Varinha de Cristal Negro': '2d10',
+    'Lâmina Arcana': '3d10', 'Chama Piromântica': '3d10',
+    'Totem Druídico da Raiz Antiga': '3d10', 'Ídolo Psíquico Fraturado': '4d10',
+    'Relicário do Sol Morto': '5d10', 'Alaúde de Guerra': '2d10',
+    'Flauta de Ossos': '1d10'
+  };
+  D.weaponDamageRule = 'Após acertar, role o dano próprio da arma e acrescente apenas o bônus explícito de Dano. Atributos servem ao teste de ataque; não são somados automaticamente ao dano. Técnicas e resistências são resolvidas separadamente. Instrumentos podem atacar com seu dano próprio.';
+  Object.entries(D.weapons).forEach(([name, w]) => {
+    w.baseDamage = profiles[name];
+    w.damageBonus = Number((w.bonus || '').match(/\+(\d+) Dano\b/i)?.[1] || 0);
+    w.damage = w.baseDamage + (w.damageBonus ? ' + ' + w.damageBonus : '');
+    w.damageType = /Mágica/.test(w.category) ? 'mágico' : 'físico';
+    if (/Instrumental/.test(w.category)) w.penalty = w.penalty.replace('Não ataca nem bloqueia', 'Não bloqueia');
+  });
+})();
+
+// Armas não convencionais disponíveis no mesmo catálogo e na ficha.
+(function () {
+  const D = window.HURRAS_RPG;
+  const rows = [
+    ['Nunchaku','1 Mão','Destreza','2d10','+1 Briga','-1 Bloqueio',{Briga:1,Bloqueio:-1},['Monge','Ninja','Guerreiro'],'Dois bastões unidos por corrente curta; exige domínio para controlar o retorno.'],
+    ['Tonfa','1 Mão','Força ou Destreza','1d10','+1 Bloqueio','-1 Alcance',{Bloqueio:1},['Monge','Guerreiro','Ninja'],'Bastão de empunhadura lateral para golpes curtos e defesa.'],
+    ['Kusarigama','Médio alcance / 2 Mãos','Destreza','3d10','+1 Alcance, +1 Desarme','-2 Bloqueio',{Bloqueio:-2},['Ninja','Monge','Ladino'],'Foice ligada a uma corrente com peso, capaz de prender armas.'],
+    ['Chakram','À Distância','Destreza','2d10','+1 Crítico','-1 Bloqueio',{Critico:1,Bloqueio:-1},['Ninja','Ladino','Arqueiro'],'Disco cortante de arremesso; não retorna automaticamente.'],
+    ['Leque de Guerra','1 Mão','Destreza','1d10','+1 Bloqueio','-1 Investida',{Bloqueio:1,Investida:-1},['Monge','Ninja','Bardo'],'Leque reforçado de metal com bordas próprias para combate.'],
+    ['Corrente com Peso','Médio alcance / 2 Mãos','Força ou Destreza','3d10','+1 Alcance, +1 Desarme','-2 Reação',{Reacao:-2},['Guerreiro','Monge','Ninja'],'Corrente longa com peso de impacto; requer espaço para ser manejada.'],
+    ['Lâmina de Punho','1 Mão','Destreza','2d10','+1 Briga','-2 Bloqueio',{Briga:1,Bloqueio:-2},['Monge','Ninja','Ladino'],'Lâmina fixada ao punho para perfurações em combate próximo.'],
+    ['Rede de Combate','À Distância','Destreza','1d10','Pode enredar: teste oposto de Destreza; alvo pode gastar ação para escapar','Precisa recolher a rede antes de reutilizar',{},['Domador','Guerreiro','Arqueiro'],'Rede com pesos; seu efeito de contenção exige teste e não é automático.']
+  ];
+  rows.forEach(([name,category,attribute,baseDamage,bonus,penalty,mods,allowedClasses,lore]) => {
+    D.weapons[name] = {name,category,attribute,baseDamage,damage:baseDamage,damageBonus:0,damageType:'físico',bonus,penalty,mods,allowedClasses,lore,rarity:'Incomum',requirement:'Treinamento com a arma',source:'armas.html'};
+    allowedClasses.forEach(cn => { const c=D.classes[cn]; if(c){c.weapons=c.weapons||[];if(!c.weapons.includes(name))c.weapons.push(name);} });
+  });
+})();
